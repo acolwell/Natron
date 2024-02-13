@@ -2,7 +2,10 @@ name: Build Installer
 
 on:
   workflow_dispatch: {}
-  push:
+  push: {}
+
+  schedule:
+    - cron:  '0 12 * * *'
 
 env:
   NATRON_BUILD_WORKSPACE: 'D:/nbw'
