@@ -1,7 +1,12 @@
 name: Build Installer
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      push_to_nightly_release:
+        required: true
+        type: boolean
+        default: false
   push: {}
 
   schedule:
@@ -185,7 +190,7 @@ jobs:
     needs: [win-installer, win-installer-breakpad]
     permissions:
       contents: write
-    if: github.event.schedule != '' && github.ref_name == 'AJC-RB-2.5'
+    if: (github.event.schedule != '' && github.ref_name == 'AJC-RB-2.5') || ${{ inputs.push_to_nightly_release }}
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -198,9 +203,9 @@ jobs:
       - name: Zip artifacts
         run: |
           cd artifacts
-          zip -r ${{ needs.win-installer.outputs.win_installer_artifact }}.zip ${{ needs.win-installer.outputs.win_installer_artifact }}
-          zip -r ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_artifact }}.zip ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_artifact }}
-          zip -r ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_symbols_artifact }}.zip ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_symbols_artifact }}
+          zip -r ${{ needs.win-installer.outputs.win_installer_artifact }}.zip ${{ needs.win-installer.outputs.win_installer_artifact }}/*
+          zip -r ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_artifact }}.zip ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_artifact }}/*
+          zip -r ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_symbols_artifact }}.zip ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_symbols_artifact }}/*
 
       - name: Display structure of downloaded files
         run: ls -R artifacts
