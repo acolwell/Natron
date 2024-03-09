@@ -2077,7 +2077,7 @@ TabWidget::leaveEvent(QEvent* e)
 }
 
 void
-TabWidget::enterEvent(QEvent* e)
+TabWidget::enterEvent(QEnterEvent* e)
 {
     if (_imp->gui) {
         _imp->gui->setLastEnteredTabWidget(this);

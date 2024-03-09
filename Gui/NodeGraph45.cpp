@@ -38,6 +38,7 @@ CLANG_DIAG_OFF(uninitialized)
 #include <QKeyEvent>
 #include <QApplication>
 #include <QCheckBox>
+#include <QRegExp>
 GCC_DIAG_UNUSED_PRIVATE_FIELD_ON
 CLANG_DIAG_ON(deprecated)
 CLANG_DIAG_ON(uninitialized)

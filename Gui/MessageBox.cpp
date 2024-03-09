@@ -38,7 +38,6 @@ CLANG_DIAG_OFF(uninitialized)
 #include <QCheckBox>
 #include <QTextEdit>
 #include <QApplication>
-#include <QDesktopWidget>
 CLANG_DIAG_ON(deprecated)
 CLANG_DIAG_ON(uninitialized)
 
@@ -225,64 +224,6 @@ MessageBox::updateSize()
     }
 
     setFixedSize(400, 150);
-//    if (!isVisible())
-//        return;
-//
-//    QSize screenSize = QApplication::desktop()->availableGeometry(QCursor::pos()).size();
-//#if defined(Q_WS_QWS) || defined(Q_WS_WINCE) || defined(Q_OS_SYMBIAN)
-//    // the width of the screen, less the window border.
-//    int hardLimit = screenSize.width() - (q->frameGeometry().width() - q->geometry().width());
-//#else
-//    int hardLimit = qMin(screenSize.width() - 480, 1000); // can never get bigger than this
-//    // on small screens allows the messagebox be the same size as the screen
-//    if (screenSize.width() <= 1024)
-//        hardLimit = screenSize.width();
-//#endif
-//#ifdef Q_WS_MAC
-//    int softLimit = qMin(screenSize.width()/2, 420);
-//#elif defined(Q_WS_QWS)
-//    int softLimit = qMin(hardLimit, 500);
-//#else
-//    // note: ideally on windows, hard and soft limits but it breaks compat
-//#ifndef Q_WS_WINCE
-//    int softLimit = qMin(screenSize.width()/2, 500);
-//#else
-//    int softLimit = qMin(screenSize.width() * 3 / 4, 500);
-//#endif //Q_WS_WINCE
-//#endif
-//
-//
-//    _imp->label->setWordWrap(false); // makes the label return min size
-//    int width = _imp->layoutMinimumWidth();
-//    _imp->label->setWordWrap(true);
-//
-//    if (width > softLimit) {
-//        width = qMax(softLimit, _imp->layoutMinimumWidth());
-//
-////        if (width > hardLimit) {
-////            _imp->label->d_func()->ensureTextControl();
-////            if (QTextControl *control = label->d_func()->control) {
-////                QTextOption opt = control->document()->defaultTextOption();
-////                opt.setWrapMode(QTextOption::WrapAnywhere);
-////                control->document()->setDefaultTextOption(opt);
-////            }
-////            width = hardLimit;
-////        }
-//    }
-//
-//    QFontMetrics fm(QApplication::font("QWorkspaceTitleBar"));
-//    int windowTitleWidth = qMin(fm.width(windowTitle()) + 50, hardLimit);
-//    if (windowTitleWidth > width)
-//        width = windowTitleWidth;
-//
-//    _imp->grid->activate();
-//    int height = (_imp->grid->hasHeightForWidth())
-//    ? _imp->grid->totalHeightForWidth(width)
-//    : _imp->grid->totalMinimumSize().height();
-//
-//
-//    setFixedSize(width, height);
-//    QCoreApplication::removePostedEvents(this, QEvent::LayoutRequest);
 } // MessageBox::updateSize
 
 StandardButtonEnum

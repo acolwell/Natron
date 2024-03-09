@@ -19,6 +19,7 @@ mingw-w64-imagemagick
 mingw-w64-osmesa
 mingw-w64-dump_syms
 mingw-w64-natron-build-deps-qt5
+mingw-w64-natron-build-deps-qt6
 "
 
 source "${BUILD_SCRIPT_DIR}/natron_repo_common.sh"

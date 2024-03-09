@@ -41,7 +41,7 @@ CLANG_DIAG_OFF(uninitialized)
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QStyledItemDelegate>
-#include <QtWidgets/QUndoCommand>
+#include <QUndoCommand>
 #include <QtWidgets/QApplication>
 #else
 #include <QtGui/QVBoxLayout>

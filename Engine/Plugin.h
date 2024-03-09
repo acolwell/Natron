@@ -219,7 +219,7 @@ public:
         , _lock()
         , _majorVersion(0)
         , _minorVersion(0)
-        , _ofxContext(eContextNone)
+        , _ofxContext(NATRON_ENUM::ContextEnum::eContextNone)
         , _hasShortcutSet(false)
         , _isReader(false)
         , _isWriter(false)
@@ -230,7 +230,7 @@ public:
         , _renderScaleEnabled(true)
         , _multiThreadingEnabled(true)
         , _openglActivated(true)
-        , _openglRenderSupport(ePluginOpenGLRenderSupportNone)
+        , _openglRenderSupport(NATRON_ENUM::PluginOpenGLRenderSupport::ePluginOpenGLRenderSupportNone)
     {
     }
 
@@ -265,7 +265,7 @@ public:
         , _lock(lock)
         , _majorVersion(majorVersion)
         , _minorVersion(minorVersion)
-        , _ofxContext(eContextNone)
+        , _ofxContext(NATRON_ENUM::ContextEnum::eContextNone)
         , _hasShortcutSet(false)
         , _isReader(isReader)
         , _isWriter(isWriter)
@@ -276,7 +276,7 @@ public:
         , _renderScaleEnabled(true)
         , _multiThreadingEnabled(true)
         , _openglActivated(true)
-        , _openglRenderSupport(ePluginOpenGLRenderSupportNone)
+        , _openglRenderSupport(NATRON_ENUM::PluginOpenGLRenderSupport::ePluginOpenGLRenderSupportNone)
     {
         if ( _resourcesPath.isEmpty() ) {
             _resourcesPath = QLatin1String(":/Resources/");

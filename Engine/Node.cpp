@@ -42,7 +42,7 @@
 #include <QtCore/QWaitCondition>
 #include <QtCore/QTextStream>
 #include <QtCore/QFile>
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 #include <ofxNatron.h>
 
@@ -4090,7 +4090,11 @@ Node::unregisterPluginMemory(size_t nBytes)
     Q_EMIT pluginMemoryUsageChanged(-nBytes);
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+QRecursiveMutex&
+#else
 QMutex &
+#endif
 Node::getRenderInstancesSharedMutex()
 {
     return _imp->renderInstancesSharedMutex;

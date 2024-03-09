@@ -68,7 +68,7 @@ GCC_DIAG_UNUSED_PRIVATE_FIELD_ON
 #include <QtGui/QStyleOptionViewItem>
 #include <QtGui/QDesktopServices>
 #else
-#include <QtWidgets/QAction>
+#include <QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QStylePainter>
 #include <QtWidgets/QStyleOptionViewItem>
@@ -791,13 +791,13 @@ SequenceFileDialog::createMenuActions()
 {
     QAction *goHomeAction =  new QAction(this);
 
-    goHomeAction->setShortcut(Qt::CTRL + Qt::Key_H + Qt::SHIFT);
+    goHomeAction->setShortcut(Qt::CTRL | Qt::Key_H | Qt::SHIFT);
     QObject::connect( goHomeAction, SIGNAL(triggered()), this, SLOT(goHome()) );
     addAction(goHomeAction);
 
 
     QAction *goToParent =  new QAction(this);
-    goToParent->setShortcut(Qt::CTRL + Qt::UpArrow);
+    goToParent->setShortcut(Qt::CTRL | Qt::Key_Up);
     QObject::connect( goToParent, SIGNAL(triggered()), this, SLOT(parentFolder()) );
     addAction(goToParent);
 

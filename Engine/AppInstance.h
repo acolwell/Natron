@@ -39,6 +39,7 @@
 #include <QtCore/QObject>  // for Q_OBJECT, Q_SIGNALS, Q_SLOTS
 #include <QtCore/QMutex>
 
+#include "Global/Enums.h"
 #include "Global/GlobalDefines.h"
 #include "Engine/RectD.h"
 #include "Engine/TimeLineKeyFrames.h"
@@ -211,7 +212,7 @@ public:
                                               NATRON_ENUM::StandardButtonEnum /*defaultButton*/,
                                               bool* /*stopAsking*/)
     {
-        return eStandardButtonYes;
+        return NATRON_ENUM::eStandardButtonYes;
     }
 
     virtual void loadProjectGui(bool /*isAutosave*/, boost::archive::xml_iarchive & /*archive*/) const

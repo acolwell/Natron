@@ -32,7 +32,6 @@
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QSplitter>
-#include <QDesktopWidget>
 GCC_DIAG_UNUSED_PRIVATE_FIELD_OFF
 // /opt/local/include/QtGui/qmime.h:119:10: warning: private field 'type' is not used [-Wunused-private-field]
 #include <QMouseEvent>
@@ -307,8 +306,6 @@ Histogram::Histogram(Gui* gui,
     QObject::connect( &_imp->histogramThread, SIGNAL(histogramProduced()), this, SLOT(onCPUHistogramComputed()) );
 #endif
 
-//    QDesktopWidget* desktop = QApplication::desktop();
-//    _imp->sizeH = desktop->screenGeometry().size();
     _imp->sizeH = QSize(10000, 10000);
 
     _imp->rightClickMenu = new Menu(this);
@@ -1504,7 +1501,7 @@ Histogram::keyReleaseEvent(QKeyEvent* e)
 }
 
 void
-Histogram::enterEvent(QEvent* e)
+Histogram::enterEvent(QEnterEvent* e)
 {
     enterEventBase();
     QOpenGLWidget::enterEvent(e);

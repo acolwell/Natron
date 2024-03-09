@@ -38,6 +38,7 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QApplication> // qApp
+#include <QRegularExpression>
 #include <QScreen>
 #include <QWindow>
 #else
@@ -203,7 +204,7 @@ ViewerGL::resizeGL(int w,
     bool zoomSinceLastFit;
     double oldWidth, oldHeight;
     {
-        QMutexLocker(&_imp->zoomCtxMutex);
+        QMutexLocker l(&_imp->zoomCtxMutex);
         oldWidth = _imp->zoomCtx.screenWidth();
         oldHeight = _imp->zoomCtx.screenHeight();
         _imp->zoomCtx.setScreenSize(zoomWidth, zoomHeight, /*alignTop=*/ true, /*alignRight=*/ false);
@@ -1094,19 +1095,19 @@ NATRON_NAMESPACE_ANONYMOUS_ENTER
 static QStringList
 explode(const QString& str)
 {
-    QRegExp rx( QString::fromUtf8("(\\ |\\-|\\.|\\/|\\t|\\n)") ); //RegEx for ' ' '/' '.' '-' '\t' '\n'
+    QRegularExpression rx( QString::fromUtf8("(\\ |\\-|\\.|\\/|\\t|\\n)") ); //RegEx for ' ' '/' '.' '-' '\t' '\n'
     QStringList ret;
     int startIndex = 0;
 
     while (true) {
-        int index = str.indexOf(rx, startIndex);
+        auto match = rx.match(str, startIndex);
 
-        if (index == -1) {
+        if (!match.hasMatch()) {
             ret.push_back( str.mid(startIndex) );
 
             return ret;
         }
-
+        const auto index = match.capturedStart(1);
         QString word = str.mid(startIndex, index - startIndex);
         const QChar& nextChar = str[index];
 
@@ -2113,13 +2114,13 @@ ViewerGL::tabletEvent(QTabletEvent* e)
     switch ( e->type() ) {
     case QEvent::TabletPress: {
         switch ( e->pointerType() ) {
-        case QTabletEvent::Cursor:
+        case QPointingDevice::PointerType::Cursor:
             _imp->pointerTypeOnPress  = ePenTypeCursor;
             break;
-        case QTabletEvent::Eraser:
+        case QPointingDevice::PointerType::Eraser:
             _imp->pointerTypeOnPress  = ePenTypeEraser;
             break;
-        case QTabletEvent::Pen:
+        case QPointingDevice::PointerType::Pen:
         default:
             _imp->pointerTypeOnPress  = ePenTypePen;
             break;
@@ -2911,7 +2912,7 @@ ViewerGL::fitImageToFormat()
     double zoomFactor;
     unsigned int oldMipmapLevel, newMipmapLevel;
     {
-        QMutexLocker(&_imp->zoomCtxMutex);
+        QMutexLocker l(&_imp->zoomCtxMutex);
         old_zoomFactor = _imp->zoomCtx.factor();
         //oldMipmapLevel = std::log( old_zoomFactor >= 1 ? 1 :
         //                           std::pow( 2, -std::ceil(std::log(old_zoomFactor) / M_LN2) ) ) / M_LN2;
@@ -3152,7 +3153,7 @@ ViewerGL::focusOutEvent(QFocusEvent* e)
 }
 
 void
-ViewerGL::enterEvent(QEvent* e)
+ViewerGL::enterEvent(QEnterEvent* e)
 {
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
@@ -3467,7 +3468,7 @@ ViewerGL::setUserRoIEnabled(bool b)
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
     {
-        QMutexLocker(&_imp->userRoIMutex);
+        QMutexLocker l(&_imp->userRoIMutex);
         _imp->userRoIEnabled = b;
     }
     if (!b) {
@@ -3568,7 +3569,7 @@ bool
 ViewerGL::isUserRegionOfInterestEnabled() const
 {
     // MT-SAFE
-    QMutexLocker(&_imp->userRoIMutex);
+    QMutexLocker l(&_imp->userRoIMutex);
 
     return _imp->userRoIEnabled;
 }
@@ -3577,7 +3578,7 @@ RectD
 ViewerGL::getUserRegionOfInterest() const
 {
     // MT-SAFE
-    QMutexLocker(&_imp->userRoIMutex);
+    QMutexLocker l(&_imp->userRoIMutex);
 
     return _imp->userRoI;
 }
@@ -3586,7 +3587,7 @@ void
 ViewerGL::setUserRoI(const RectD & r)
 {
     // MT-SAFE
-    QMutexLocker(&_imp->userRoIMutex);
+    QMutexLocker l(&_imp->userRoIMutex);
     _imp->userRoI = r;
 }
 

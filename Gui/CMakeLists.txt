@@ -28,8 +28,8 @@ list(APPEND PYGUI_INCLUDE_DIRS ${PYSIDE_INCLUDE_DIRS} ${PYSIDE_INCLUDE_DIRS}/QtC
 list(APPEND PYGUI_INCLUDE_DIRS ${QTCORE_INCLUDE_DIRS} ${QTGUI_INCLUDE_DIRS}
     ${QTWIDGETS_INCLUDE_DIRS} ${Python3_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
 list(TRANSFORM PYGUI_INCLUDE_DIRS PREPEND "-I" OUTPUT_VARIABLE PYGUI_INCS)
-set(PYGUI_HEADER PySide2_Gui_Python.h)
-set(POST_SHIBOKEN ../tools/utils/runPostShiboken2.sh)
+set(PYGUI_HEADER PySide6_Gui_Python.h)
+set(POST_SHIBOKEN ../tools/utils/runPostShiboken6.sh)
 
 set(shiboken_args
     "--enable-parent-ctor-heuristic" "--use-isnull-as-nb_nonzero"
@@ -38,7 +38,7 @@ set(shiboken_args
     "-T../Engine" "-T${PYSIDE_TYPESYSTEMS}" "--output-directory=${PYGUI_OUT}"
     "${PYGUI_HEADER}" "typesystem_natronGui.xml")
 if(APPLE)
-   list(APPEND shiboken_args -I${Qt5_DIR}/../../../include)
+   list(APPEND shiboken_args -I${Qt6_DIR}/../../../include)
 endif()
 
 execute_process(COMMAND ${Python3_EXECUTABLE} ../tools/utils/sourceList.py typesystem_natronGui.xml ${PYGUI_OUT}
@@ -46,7 +46,7 @@ execute_process(COMMAND ${Python3_EXECUTABLE} ../tools/utils/sourceList.py types
     OUTPUT_VARIABLE PyGui_SOURCES)
 set_property(SOURCE ${PyGui_SOURCES} PROPERTY SKIP_AUTOGEN ON)
 add_custom_command(OUTPUT ${PyGui_SOURCES}
-    COMMAND Shiboken2::shiboken2 ${shiboken_args}
+    COMMAND shiboken6 ${shiboken_args}
     COMMAND bash ${POST_SHIBOKEN} ${PYGUI_OUT}/NatronGui natrongui
     DEPENDS ${PYGUI_HEADER} ${NatronEngine_HEADERS} ${NatronGui_HEADERS} ${POST_SHIBOKEN} typesystem_natronGui.xml
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
@@ -63,13 +63,15 @@ list(APPEND NatronGui_SOURCES
 add_library(NatronGui STATIC ${NatronGui_HEADERS} ${NatronGui_SOURCES})
 target_link_libraries(NatronGui
     PUBLIC
-        Shiboken2::libshiboken
-        PySide2::pyside2
-        Qt5::Core
-        Qt5::Concurrent
-        Qt5::Network
-        Qt5::Gui
-        Qt5::Widgets
+        Shiboken6::libshiboken
+        PySide6::pyside6
+        Qt6::Core
+        Qt6::Concurrent
+        Qt6::Network
+        Qt6::Gui
+        Qt6::Widgets
+        Qt6::OpenGLWidgets
+        Qt6::Core5Compat
         Python3::Module
         NatronEngine
     PRIVATE

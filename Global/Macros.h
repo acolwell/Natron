@@ -48,7 +48,7 @@ namespace Python { }
 #define NATRON_PYTHON_NAMESPACE_USING using namespace Natron::Python;
 #endif
 
-#if defined(SBK_RUN)
+#if 0 //defined(SBK_RUN)
 
 // run shiboken without the Natron namespace, and add NATRON_NAMESPACE_USING to each cpp afterwards
 #define NATRON_NAMESPACE
@@ -449,8 +449,8 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 // see https://trac.webkit.org/browser/webkit/trunk/Source/WTF/wtf/Compiler.h?format=txt
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-/* COMPILER() - the compiler being used to build the project */
-#define COMPILER(NATRON_FEATURE) (NATRON_COMPILER_ ## NATRON_FEATURE)
+/* NATRON_COMPILER() - the compiler being used to build the project */
+#define NATRON_COMPILER(NATRON_FEATURE) (NATRON_COMPILER_ ## NATRON_FEATURE)
 
 /* COMPILER_SUPPORTS() - whether the compiler being used to build the project supports the given feature. */
 #define COMPILER_SUPPORTS(NATRON_COMPILER_FEATURE) (NATRON_COMPILER_SUPPORTS_ ## NATRON_COMPILER_FEATURE)
@@ -474,9 +474,9 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 #define COMPILER_HAS_CLANG_DECLSPEC(x) 0
 #endif
 
-/* ==== COMPILER() - primary detection of the compiler being used to build the project, in alphabetical order ==== */
+/* ==== NATRON_COMPILER() - primary detection of the compiler being used to build the project, in alphabetical order ==== */
 
-/* COMPILER(CLANG) - Clang */
+/* NATRON_COMPILER(CLANG) - Clang */
 
 #if defined(__clang__)
 #define NATRON_COMPILER_CLANG 1
@@ -496,14 +496,14 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 #endif // defined(__clang__)
 
-/* COMPILER(GCC_OR_CLANG) - GNU Compiler Collection or Clang */
+/* NATRON_COMPILER(GCC_OR_CLANG) - GNU Compiler Collection or Clang */
 #if defined(__GNUC__)
 #define NATRON_COMPILER_GCC_OR_CLANG 1
 #endif
 
-/* COMPILER(GCC) - GNU Compiler Collection */
-/* Note: This section must come after the Clang section since we check !COMPILER(CLANG) here. */
-#if COMPILER(GCC_OR_CLANG) && !COMPILER(CLANG)
+/* NATRON_COMPILER(GCC) - GNU Compiler Collection */
+/* Note: This section must come after the Clang section since we check !NATRON_COMPILER(CLANG) here. */
+#if NATRON_COMPILER(GCC_OR_CLANG) && !NATRON_COMPILER(CLANG)
 #define NATRON_COMPILER_GCC 1
 #define NATRON_COMPILER_SUPPORTS_CXX_REFERENCE_QUALIFIED_FUNCTIONS 1
 
@@ -520,24 +520,24 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 
-#endif /* COMPILER(GCC) */
+#endif /* NATRON_COMPILER(GCC) */
 
-/* COMPILER(MINGW) - MinGW GCC */
+/* NATRON_COMPILER(MINGW) - MinGW GCC */
 
 #if defined(__MINGW32__)
 #define NATRON_COMPILER_MINGW 1
 #include <_mingw.h>
 #endif
 
-/* COMPILER(MINGW64) - mingw-w64 GCC - used as additional check to exclude mingw.org specific functions */
+/* NATRON_COMPILER(MINGW64) - mingw-w64 GCC - used as additional check to exclude mingw.org specific functions */
 
-/* Note: This section must come after the MinGW section since we check COMPILER(MINGW) here. */
+/* Note: This section must come after the MinGW section since we check NATRON_COMPILER(MINGW) here. */
 
-#if COMPILER(MINGW) && defined(__MINGW64_VERSION_MAJOR) /* best way to check for mingw-w64 vs mingw.org */
+#if NATRON_COMPILER(MINGW) && defined(__MINGW64_VERSION_MAJOR) /* best way to check for mingw-w64 vs mingw.org */
 #define NATRON_COMPILER_MINGW64 1
 #endif
 
-/* COMPILER(MSVC) - Microsoft Visual C++ */
+/* NATRON_COMPILER(MSVC) - Microsoft Visual C++ */
 
 #if defined(_MSC_VER)
 
@@ -550,13 +550,13 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 #endif
 
-/* COMPILER(SUNCC) */
+/* NATRON_COMPILER(SUNCC) */
 
 #if defined(__SUNPRO_CC) || defined(__SUNPRO_C)
 #define NATRON_COMPILER_SUNCC 1
 #endif
 
-#if !COMPILER(CLANG) && !COMPILER(MSVC)
+#if !NATRON_COMPILER(CLANG) && !NATRON_COMPILER(MSVC)
 #define NATRON_COMPILER_QUIRK_CONSIDERS_UNREACHABLE_CODE 1
 #endif
 
@@ -594,11 +594,11 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 /* ALWAYS_INLINE */
 
-#if !defined(ALWAYS_INLINE) && COMPILER(GCC_OR_CLANG) && defined(NDEBUG) && !COMPILER(MINGW)
+#if !defined(ALWAYS_INLINE) && NATRON_COMPILER(GCC_OR_CLANG) && defined(NDEBUG) && !NATRON_COMPILER(MINGW)
 #define ALWAYS_INLINE inline __attribute__((__always_inline__))
 #endif
 
-#if !defined(ALWAYS_INLINE) && COMPILER(MSVC) && defined(NDEBUG)
+#if !defined(ALWAYS_INLINE) && NATRON_COMPILER(MSVC) && defined(NDEBUG)
 #define ALWAYS_INLINE __forceinline
 #endif
 
@@ -636,7 +636,7 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 /* LIKELY */
 
-#if !defined(LIKELY) && COMPILER(GCC_OR_CLANG)
+#if !defined(LIKELY) && NATRON_COMPILER(GCC_OR_CLANG)
 #define LIKELY(x) __builtin_expect(!!(x), 1)
 #endif
 
@@ -646,11 +646,11 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 /* NEVER_INLINE */
 
-#if !defined(NEVER_INLINE) && COMPILER(GCC_OR_CLANG)
+#if !defined(NEVER_INLINE) && NATRON_COMPILER(GCC_OR_CLANG)
 #define NEVER_INLINE __attribute__((__noinline__))
 #endif
 
-#if !defined(NEVER_INLINE) && COMPILER(MSVC)
+#if !defined(NEVER_INLINE) && NATRON_COMPILER(MSVC)
 #define NEVER_INLINE __declspec(noinline)
 #endif
 
@@ -660,11 +660,11 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 /* NO_RETURN */
 
-#if !defined(NO_RETURN) && COMPILER(GCC_OR_CLANG)
+#if !defined(NO_RETURN) && NATRON_COMPILER(GCC_OR_CLANG)
 #define NO_RETURN __attribute((__noreturn__))
 #endif
 
-#if !defined(NO_RETURN) && COMPILER(MSVC)
+#if !defined(NO_RETURN) && NATRON_COMPILER(MSVC)
 #define NO_RETURN __declspec(noreturn)
 #endif
 
@@ -673,7 +673,7 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 #endif
 
 /* RETURNS_NONNULL */
-#if !defined(RETURNS_NONNULL) && COMPILER(GCC_OR_CLANG)
+#if !defined(RETURNS_NONNULL) && NATRON_COMPILER(GCC_OR_CLANG)
 #define RETURNS_NONNULL __attribute__((returns_nonnull))
 #endif
 
@@ -683,7 +683,7 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 /* NO_RETURN_WITH_VALUE */
 
-#if !defined(NO_RETURN_WITH_VALUE) && !COMPILER(MSVC)
+#if !defined(NO_RETURN_WITH_VALUE) && !NATRON_COMPILER(MSVC)
 #define NO_RETURN_WITH_VALUE NO_RETURN
 #endif
 
@@ -703,7 +703,7 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 /* PURE_FUNCTION */
 
-#if !defined(PURE_FUNCTION) && COMPILER(GCC_OR_CLANG)
+#if !defined(PURE_FUNCTION) && NATRON_COMPILER(GCC_OR_CLANG)
 #define PURE_FUNCTION __attribute__((__pure__))
 #endif
 
@@ -713,7 +713,7 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 /* UNUSED_FUNCTION */
 
-#if !defined(UNUSED_FUNCTION) && COMPILER(GCC_OR_CLANG)
+#if !defined(UNUSED_FUNCTION) && NATRON_COMPILER(GCC_OR_CLANG)
 #define UNUSED_FUNCTION __attribute__((unused))
 #endif
 
@@ -723,7 +723,7 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 /* REFERENCED_FROM_ASM */
 
-#if !defined(REFERENCED_FROM_ASM) && COMPILER(GCC_OR_CLANG)
+#if !defined(REFERENCED_FROM_ASM) && NATRON_COMPILER(GCC_OR_CLANG)
 #define REFERENCED_FROM_ASM __attribute__((__used__))
 #endif
 
@@ -733,7 +733,7 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 /* UNLIKELY */
 
-#if !defined(UNLIKELY) && COMPILER(GCC_OR_CLANG)
+#if !defined(UNLIKELY) && NATRON_COMPILER(GCC_OR_CLANG)
 #define UNLIKELY(x) __builtin_expect(!!(x), 0)
 #endif
 
@@ -746,7 +746,7 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 /* Keep the compiler from complaining for a local label that is defined but not referenced. */
 /* Helpful when mixing hand-written and autogenerated code. */
 
-#if !defined(UNUSED_LABEL) && COMPILER(MSVC)
+#if !defined(UNUSED_LABEL) && NATRON_COMPILER(MSVC)
 #define UNUSED_LABEL(label) if (false) goto label
 #endif
 
@@ -756,7 +756,7 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 /* UNUSED_PARAM */
 
-#if !defined(UNUSED_PARAM) && COMPILER(MSVC)
+#if !defined(UNUSED_PARAM) && NATRON_COMPILER(MSVC)
 #define UNUSED_PARAM(variable) (void)&variable
 #endif
 
@@ -766,7 +766,7 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 /* WARN_UNUSED_RETURN */
 
-#if !defined(WARN_UNUSED_RETURN) && COMPILER(GCC_OR_CLANG)
+#if !defined(WARN_UNUSED_RETURN) && NATRON_COMPILER(GCC_OR_CLANG)
 #define WARN_UNUSED_RETURN __attribute__((__warn_unused_result__))
 #endif
 
@@ -774,7 +774,7 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 #define WARN_UNUSED_RETURN
 #endif
 
-#if !defined(__has_include) && COMPILER(MSVC)
+#if !defined(__has_include) && NATRON_COMPILER(MSVC)
 #define __has_include(path) 0
 #endif
 
@@ -806,8 +806,8 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 #define NATRON_COMPILER_SUPPORTS_HAS_TRIVIAL_DESTRUCTOR COMPILER_HAS_CLANG_EXTENSION(has_trivial_destructor)
 #endif
 
-/* COMPILER(MSVC7_OR_LOWER) - Microsoft Visual C++ 2003 or lower*/
-/* COMPILER(MSVC9_OR_LOWER) - Microsoft Visual C++ 2008 or lower*/
+/* NATRON_COMPILER(MSVC7_OR_LOWER) - Microsoft Visual C++ 2003 or lower*/
+/* NATRON_COMPILER(MSVC9_OR_LOWER) - Microsoft Visual C++ 2008 or lower*/
 #if defined(_MSC_VER)
 #if _MSC_VER < 1400
 #define NATRON_COMPILER_MSVC7_OR_LOWER 1
@@ -816,11 +816,11 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 #endif
 
 /* Specific compiler features */
-#if !COMPILER(CLANG) && _MSC_VER >= 1600
+#if !NATRON_COMPILER(CLANG) && _MSC_VER >= 1600
 #define NATRON_SUPPORTS_CXX_NULLPTR 1
 #endif
 
-#if !COMPILER(CLANG)
+#if !NATRON_COMPILER(CLANG)
 #define NATRON_COMPILER_SUPPORTS_CXX_OVERRIDE_CONTROL 1
 #define NATRON_COMPILER_QUIRK_FINAL_IS_CALLED_SEALED 1
 #endif
@@ -829,7 +829,7 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 
 
 /* Specific compiler features */
-#if COMPILER(GCC) && !COMPILER(CLANG)
+#if NATRON_COMPILER(GCC) && !NATRON_COMPILER(CLANG)
 #if GCC_VERSION_AT_LEAST(4, 7, 0) && defined(__cplusplus) && __cplusplus >= 201103L
 #define NATRON_COMPILER_SUPPORTS_CXX_RVALUE_REFERENCES 1
 #define NATRON_COMPILER_SUPPORTS_CXX_DELETED_FUNCTIONS 1
@@ -842,11 +842,11 @@ GCC_ONLY_DIAG_OFF(pragmas)  // warning: unknown option after '#pragma GCC diagno
 #define NATRON_COMPILER_QUIRK_GCC11_GLOBAL_ISINF_ISNAN 1
 #endif
 
-#endif // COMPILER(GCC) && !COMPILER(CLANG)
+#endif // NATRON_COMPILER(GCC) && !NATRON_COMPILER(CLANG)
 
 /* ignore_result */
 // a very simple template function to actually ignore the return value of functions define with WARN_UNUSED_RETURN
-#if COMPILER(GCC)
+#if NATRON_COMPILER(GCC)
 #ifdef __cplusplus
 template<typename T>
 inline T
@@ -868,7 +868,7 @@ ignore_result(T x)
 
 /* OVERRIDE and FINAL */
 
-#if COMPILER_SUPPORTS(CXX_OVERRIDE_CONTROL) && !COMPILER(MSVC) //< patch so msvc 2010 ignores the override and final keywords.
+#if COMPILER_SUPPORTS(CXX_OVERRIDE_CONTROL) && !NATRON_COMPILER(MSVC) //< patch so msvc 2010 ignores the override and final keywords.
 #define OVERRIDE override
 
 #if COMPILER_QUIRK(FINAL_IS_CALLED_SEALED)

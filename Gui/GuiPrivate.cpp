@@ -533,7 +533,7 @@ private:
         }
     }
 
-    virtual void enterEvent(QEvent* e) OVERRIDE FINAL
+    virtual void enterEvent(QEnterEvent* e) OVERRIDE FINAL
     {
         AutoRaiseToolButton* btn = dynamic_cast<AutoRaiseToolButton*>( _gui->getToolButtonMenuOpened() );
 

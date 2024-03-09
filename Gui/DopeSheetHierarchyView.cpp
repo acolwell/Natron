@@ -814,7 +814,10 @@ HierarchyView::drawRow(QPainter *painter,
         painter->fillRect(itemRect.adjusted(-1, 0, 0, 0), fillColor);
 
         // Draw the item text
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QStyleOptionViewItem newOpt;
+    initViewItemOption(&newOpt);
+#elif QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
         QStyleOptionViewItem newOpt = viewOptions();
 #else
         QStyleOptionViewItemV4 newOpt = viewOptions();
@@ -868,7 +871,10 @@ HierarchyView::drawBranches(QPainter *painter,
         painter->fillRect(rectForDull, nodeColorDull);
 
         // Draw the branch indicator
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QStyleOptionViewItem option;
+    initViewItemOption(&option);
+#elif 
         QStyleOptionViewItem option = viewOptions();
 #else
         QStyleOptionViewItemV4 option = viewOptions();

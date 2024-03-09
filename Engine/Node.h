@@ -863,7 +863,11 @@ public:
 
     //see eRenderSafetyInstanceSafe in EffectInstance::renderRoI
     //only 1 clone can render at any time
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)    
+    QRecursiveMutex & getRenderInstancesSharedMutex();
+#else
     QMutex & getRenderInstancesSharedMutex();
+#endif
 
     void refreshPreviewsRecursivelyDownstream(double time);
 

@@ -36,7 +36,9 @@
  * Do not include it when compiling Natron.
  **/
 
-#ifdef SBK2_RUN
+#if defined(SBK6_RUN)
+#include <pyside6_global.h>
+#elif defined(SBK2_RUN)
 #include <pyside2_global.h>
 #else
 #include <pyside_global.h>

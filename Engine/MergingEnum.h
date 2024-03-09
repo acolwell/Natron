@@ -46,121 +46,121 @@ inline std::string
 getOperatorString(NATRON_ENUM::MergingFunctionEnum operation)
 {
     switch (operation) {
-    case eMergeATop:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeATop:
 
         return "atop";
-    case eMergeAverage:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeAverage:
 
         return "average";
-    case eMergeColor:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeColor:
 
         return "color";
-    case eMergeColorBurn:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeColorBurn:
 
         return "color-burn";
-    case eMergeColorDodge:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeColorDodge:
 
         return "color-dodge";
-    case eMergeConjointOver:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeConjointOver:
 
         return "conjoint-over";
-    case eMergeCopy:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeCopy:
 
         return "copy";
-    case eMergeDifference:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeDifference:
 
         return "difference";
-    case eMergeDisjointOver:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeDisjointOver:
 
         return "disjoint-over";
-    case eMergeDivide:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeDivide:
 
         return "divide";
-    case eMergeExclusion:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeExclusion:
 
         return "exclusion";
-    case eMergeFreeze:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeFreeze:
 
         return "freeze";
-    case eMergeFrom:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeFrom:
 
         return "from";
-    case eMergeGeometric:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeGeometric:
 
         return "geometric";
-    case eMergeGrainExtract:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeGrainExtract:
 
         return "grain-extract";
-    case eMergeGrainMerge:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeGrainMerge:
 
         return "grain-merge";
-    case eMergeHardLight:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeHardLight:
 
         return "hard-light";
-    case eMergeHue:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeHue:
 
         return "hue";
-    case eMergeHypot:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeHypot:
 
         return "hypot";
-    case eMergeIn:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeIn:
 
         return "in";
-    case eMergeLuminosity:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeLuminosity:
 
         return "luminosity";
-    case eMergeMask:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMask:
 
         return "mask";
-    case eMergeMatte:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMatte:
 
         return "matte";
-    case eMergeMax:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMax:
 
         return "max";
-    case eMergeMin:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMin:
 
         return "min";
-    case eMergeMinus:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMinus:
 
         return "minus";
-    case eMergeMultiply:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMultiply:
 
         return "multiply";
-    case eMergeOut:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeOut:
 
         return "out";
-    case eMergeOver:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeOver:
 
         return "over";
-    case eMergeOverlay:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeOverlay:
 
         return "overlay";
-    case eMergePinLight:
+    case NATRON_ENUM::MergingFunctionEnum::eMergePinLight:
 
         return "pinlight";
-    case eMergePlus:
+    case NATRON_ENUM::MergingFunctionEnum::eMergePlus:
 
         return "plus";
-    case eMergeReflect:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeReflect:
 
         return "reflect";
-    case eMergeSaturation:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeSaturation:
 
         return "saturation";
-    case eMergeScreen:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeScreen:
 
         return "screen";
-    case eMergeSoftLight:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeSoftLight:
 
         return "soft-light";
-    case eMergeStencil:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeStencil:
 
         return "stencil";
-    case eMergeUnder:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeUnder:
 
         return "under";
-    case eMergeXOR:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeXOR:
 
         return "xor";
     } // switch
@@ -172,121 +172,121 @@ inline std::string
 getOperatorHelpString(NATRON_ENUM::MergingFunctionEnum operation)
 {
     switch (operation) {
-    case eMergeATop:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeATop:
 
         return "Ab + B(1 - a)";
-    case eMergeAverage:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeAverage:
 
         return "(A + B) / 2";
-    case eMergeColor:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeColor:
 
         return "SetLum(A, Lum(B))";
-    case eMergeColorBurn:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeColorBurn:
 
         return "darken B towards A";
-    case eMergeColorDodge:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeColorDodge:
 
         return "brighten B towards A";
-    case eMergeConjointOver:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeConjointOver:
 
         return "A + B(1-a)/b, A if a > b";
-    case eMergeCopy:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeCopy:
 
         return "A";
-    case eMergeDifference:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeDifference:
 
         return "abs(A-B)";
-    case eMergeDisjointOver:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeDisjointOver:
 
         return "A+B(1-a)/b, A+B if a+b < 1";
-    case eMergeDivide:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeDivide:
 
         return "A/B, 0 if A < 0 and B < 0";
-    case eMergeExclusion:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeExclusion:
 
         return "A+B-2AB";
-    case eMergeFreeze:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeFreeze:
 
         return "1-sqrt(1-A)/B";
-    case eMergeFrom:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeFrom:
 
         return "B-A";
-    case eMergeGeometric:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeGeometric:
 
         return "2AB/(A+B)";
-    case eMergeGrainMerge:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeGrainMerge:
 
         return "B + A - 0.5";
-    case eMergeGrainExtract:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeGrainExtract:
 
         return "B - A + 0.5";
-    case eMergeHardLight:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeHardLight:
 
         return "multiply if A < 0.5, screen if A > 0.5";
-    case eMergeHue:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeHue:
 
         return "SetLum(SetSat(A, Sat(B)), Lum(B))";
-    case eMergeHypot:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeHypot:
 
         return "sqrt(A*A+B*B)";
-    case eMergeIn:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeIn:
 
         return "Ab";
-    case eMergeLuminosity:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeLuminosity:
 
         return "SetLum(B, Lum(A))";
-    case eMergeMask:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMask:
 
         return "Ba";
-    case eMergeMatte:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMatte:
 
         return "Aa + B(1-a) (unpremultiplied over)";
-    case eMergeMax:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMax:
 
         return "max(A, B)";
-    case eMergeMin:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMin:
 
         return "min(A, B)";
-    case eMergeMinus:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMinus:
 
         return "A-B";
-    case eMergeMultiply:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMultiply:
 
         return "AB, 0 if A < 0 and B < 0";
-    case eMergeOut:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeOut:
 
         return "A(1-b)";
-    case eMergeOver:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeOver:
 
         return "A+B(1-a)";
-    case eMergeOverlay:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeOverlay:
 
         return "multiply if B<0.5, screen if B>0.5";
-    case eMergePinLight:
+    case NATRON_ENUM::MergingFunctionEnum::eMergePinLight:
 
         return "if B >= 0.5 then max(A, 2*B - 1), min(A, B * 2.0 ) else";
-    case eMergePlus:
+    case NATRON_ENUM::MergingFunctionEnum::eMergePlus:
 
         return "A+B";
-    case eMergeReflect:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeReflect:
 
         return "A*A / (1 - B)";
-    case eMergeSaturation:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeSaturation:
 
         return "SetLum(SetSat(B, Sat(A)), Lum(B))";
-    case eMergeScreen:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeScreen:
 
         return "A+B-AB";
-    case eMergeSoftLight:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeSoftLight:
 
         return "burn-in if A < 0.5, lighten if A > 0.5";
-    case eMergeStencil:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeStencil:
 
         return "B(1-a)";
-    case eMergeUnder:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeUnder:
 
         return "A(1-b)+B";
-    case eMergeXOR:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeXOR:
 
         return "A(1-b)+B(1-a)";
     } // switch
@@ -299,139 +299,139 @@ NATRON_ENUM::PixmapEnum
 getOperatorPixmap(NATRON_ENUM::MergingFunctionEnum operation)
 {
     switch (operation) {
-    case eMergeATop:
+    case NATRON_ENUM::MergingFunctionEnum::eMergeATop:
 
-        return NATRON_PIXMAP_MERGE_ATOP;
-    case eMergeAverage:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_ATOP;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeAverage:
 
-        return NATRON_PIXMAP_MERGE_AVERAGE;
-    case eMergeColor:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_AVERAGE;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeColor:
 
-        return NATRON_PIXMAP_MERGE_COLOR;
-    case eMergeColorBurn:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_COLOR;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeColorBurn:
 
-        return NATRON_PIXMAP_MERGE_COLOR_BURN;
-    case eMergeColorDodge:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_COLOR_BURN;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeColorDodge:
 
-        return NATRON_PIXMAP_MERGE_COLOR_DODGE;
-    case eMergeConjointOver:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_COLOR_DODGE;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeConjointOver:
 
-        return NATRON_PIXMAP_MERGE_CONJOINT_OVER;
-    case eMergeCopy:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_CONJOINT_OVER;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeCopy:
 
-        return NATRON_PIXMAP_MERGE_COPY;
-    case eMergeDifference:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_COPY;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeDifference:
 
-        return NATRON_PIXMAP_MERGE_DIFFERENCE;
-    case eMergeDisjointOver:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_DIFFERENCE;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeDisjointOver:
 
-        return NATRON_PIXMAP_MERGE_DISJOINT_OVER;
-    case eMergeDivide:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_DISJOINT_OVER;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeDivide:
 
-        return NATRON_PIXMAP_MERGE_DIVIDE;
-    case eMergeExclusion:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_DIVIDE;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeExclusion:
 
-        return NATRON_PIXMAP_MERGE_EXCLUSION;
-    case eMergeFreeze:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_EXCLUSION;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeFreeze:
 
-        return NATRON_PIXMAP_MERGE_FREEZE;
-    case eMergeFrom:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_FREEZE;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeFrom:
 
-        return NATRON_PIXMAP_MERGE_FROM;
-    case eMergeGeometric:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_FROM;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeGeometric:
 
-        return NATRON_PIXMAP_MERGE_GEOMETRIC;
-    case eMergeGrainExtract:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_GEOMETRIC;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeGrainExtract:
 
-        return NATRON_PIXMAP_MERGE_GRAIN_EXTRACT;
-    case eMergeGrainMerge:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_GRAIN_EXTRACT;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeGrainMerge:
 
-        return NATRON_PIXMAP_MERGE_GRAIN_MERGE;
-    case eMergeHardLight:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_GRAIN_MERGE;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeHardLight:
 
-        return NATRON_PIXMAP_MERGE_HARD_LIGHT;
-    case eMergeHue:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_HARD_LIGHT;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeHue:
 
-        return NATRON_PIXMAP_MERGE_HUE;
-    case eMergeHypot:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_HUE;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeHypot:
 
-        return NATRON_PIXMAP_MERGE_HYPOT;
-    case eMergeIn:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_HYPOT;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeIn:
 
-        return NATRON_PIXMAP_MERGE_IN;
-    case eMergeLuminosity:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_IN;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeLuminosity:
 
-        return NATRON_PIXMAP_MERGE_LUMINOSITY;
-    case eMergeMask:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_LUMINOSITY;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMask:
 
-        return NATRON_PIXMAP_MERGE_MASK;
-    case eMergeMatte:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_MASK;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMatte:
 
-        return NATRON_PIXMAP_MERGE_MATTE;
-    case eMergeMax:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_MATTE;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMax:
 
-        return NATRON_PIXMAP_MERGE_MAX;
-    case eMergeMin:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_MAX;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMin:
 
-        return NATRON_PIXMAP_MERGE_MIN;
-    case eMergeMinus:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_MIN;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMinus:
 
-        return NATRON_PIXMAP_MERGE_MINUS;
-    case eMergeMultiply:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_MINUS;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeMultiply:
 
-        return NATRON_PIXMAP_MERGE_MULTIPLY;
-    case eMergeOut:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_MULTIPLY;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeOut:
 
-        return NATRON_PIXMAP_MERGE_OUT;
-    case eMergeOver:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_OUT;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeOver:
 
-        return NATRON_PIXMAP_MERGE_OVER;
-    case eMergeOverlay:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_OVER;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeOverlay:
 
-        return NATRON_PIXMAP_MERGE_OVERLAY;
-    case eMergePinLight:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_OVERLAY;
+    case NATRON_ENUM::MergingFunctionEnum::eMergePinLight:
 
-        return NATRON_PIXMAP_MERGE_PINLIGHT;
-    case eMergePlus:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_PINLIGHT;
+    case NATRON_ENUM::MergingFunctionEnum::eMergePlus:
 
-        return NATRON_PIXMAP_MERGE_PLUS;
-    case eMergeReflect:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_PLUS;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeReflect:
 
-        return NATRON_PIXMAP_MERGE_REFLECT;
-    case eMergeSaturation:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_REFLECT;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeSaturation:
 
-        return NATRON_PIXMAP_MERGE_SATURATION;
-    case eMergeScreen:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_SATURATION;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeScreen:
 
-        return NATRON_PIXMAP_MERGE_SCREEN;
-    case eMergeSoftLight:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_SCREEN;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeSoftLight:
 
-        return NATRON_PIXMAP_MERGE_SOFT_LIGHT;
-    case eMergeStencil:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_SOFT_LIGHT;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeStencil:
 
-        return NATRON_PIXMAP_MERGE_STENCIL;
-    case eMergeUnder:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_STENCIL;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeUnder:
 
-        return NATRON_PIXMAP_MERGE_UNDER;
-    case eMergeXOR:
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_UNDER;
+    case NATRON_ENUM::MergingFunctionEnum::eMergeXOR:
 
-        return NATRON_PIXMAP_MERGE_XOR;
+        return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_XOR;
     } // switch
-    return NATRON_PIXMAP_MERGE_OVER;
+    return NATRON_ENUM::PixmapEnum::NATRON_PIXMAP_MERGE_OVER;
 } // getOperatorPixmap
 
 ///Keep this in sync with the MergeOperatorEnum !
 inline void
 getOperatorStrings(std::vector<ChoiceOption>* operators)
 {
-    operators->resize((int)eMergeXOR + 1);
+    operators->resize((int)NATRON_ENUM::MergingFunctionEnum::eMergeXOR + 1);
 
     for (std::size_t i = 0; i < operators->size(); ++i) {
 
         ChoiceOption& option = (*operators)[i];
 
-        option.id = Merge::getOperatorString( (MergingFunctionEnum)i );
-        option.tooltip = Merge::getOperatorHelpString( (MergingFunctionEnum)i );
+        option.id = Merge::getOperatorString( (NATRON_ENUM::MergingFunctionEnum)i );
+        option.tooltip = Merge::getOperatorHelpString( (NATRON_ENUM::MergingFunctionEnum)i );
     }
 }
 } // namespace Merge

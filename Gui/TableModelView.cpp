@@ -935,7 +935,7 @@ ExpandingLineEdit::updateMinimumWidth()
     initStyleOption(&opt);
 
     int minWidth = style()->sizeFromContents(QStyle::CT_LineEdit, &opt, QSize(width, 0).
-                                             expandedTo( QApplication::globalStrut() ), this).width();
+                                             expandedTo( QSize(0, 0) ), this).width();
     setMinimumWidth(minWidth);
 }
 

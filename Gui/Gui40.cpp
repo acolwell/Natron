@@ -184,7 +184,7 @@ Gui::updateRecentFileActions()
     assert(files.size() <= (int)NATRON_MAX_RECENT_FILES);
     assert(files.size() == fileNames.size());
     assert(dirNames.size() == fileNames.size());
-    int numRecentFiles = std::min(fileNames.size(), (int)NATRON_MAX_RECENT_FILES);
+    int numRecentFiles = std::min(fileNames.size(), (qsizetype)NATRON_MAX_RECENT_FILES);
 
     // the dirname can be the same too. for each fileName with count > 1, collect the indices of the identical filenames. if dirname and directory up-level is the same for at least two files, raise the directory level up until the two dirnames are different
     for (std::map<QString,QStringList>::const_iterator it = allDirNames.begin(); it != allDirNames.end(); ++it) {
@@ -200,7 +200,7 @@ Gui::updateRecentFileActions()
                 dirParts[i] = QDir::toNativeSeparators(dirs.at(i)).split(QDir::separator(), QString::SkipEmptyParts);
 #endif
             }
-            int minComps = dirParts[0].size();
+            auto minComps = dirParts[0].size();
             for (int i = 1; i < dirs.size(); ++i) {
                 minComps = std::min(minComps, dirParts[i].size());
             }

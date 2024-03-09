@@ -827,11 +827,11 @@ PreferencesPanel::filterPlugins(const QString & txt)
     } else {
         QString pattern;
         for (int i = 0; i < txt.size(); ++i) {
-            pattern.push_back( QLatin1Char('*') );
+            pattern.push_back( QLatin1String(".*") );
             pattern.push_back(txt[i]);
         }
-        pattern.push_back( QLatin1Char('*') );
-        QRegExp expr(pattern, Qt::CaseInsensitive, QRegExp::WildcardUnix);
+        pattern.push_back( QLatin1String(".*") );
+        QRegularExpression expr(pattern, QRegularExpression::CaseInsensitiveOption);
         std::list<QTreeWidgetItem*> itemsToDisplay;
         for (PluginTreeNodeList::iterator it = _imp->pluginsList.begin(); it != _imp->pluginsList.end(); ++it) {
             if ( it->plugin && it->plugin->getLabelWithoutSuffix().contains(expr) ) {

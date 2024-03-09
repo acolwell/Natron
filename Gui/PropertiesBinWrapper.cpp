@@ -54,7 +54,7 @@ PropertiesBinWrapper::mousePressEvent(QMouseEvent* e)
 }
 
 void
-PropertiesBinWrapper::enterEvent(QEvent* e)
+PropertiesBinWrapper::enterEvent(QEnterEvent* e)
 {
     QWidget::enterEvent(e);
 }

@@ -35,6 +35,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
+#include <QRegExp>
 
 #include "Global/GlobalDefines.h"
 #include "Global/GitVersion.h"

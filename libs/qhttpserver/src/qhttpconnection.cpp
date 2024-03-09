@@ -143,7 +143,7 @@ void QHttpConnection::responseDone()
 #define CHECK_AND_GET_FIELD(data, info, field)                                                     \
     (HAS_URL_FIELD(info, field) ? GET_FIELD(data, info, field) : QString())
 
-QUrl createUrl(const char *urlData, const http_parser_url &urlInfo)
+static QUrl createUrl(const char *urlData, const http_parser_url &urlInfo)
 {
     QUrl url;
     url.setScheme(CHECK_AND_GET_FIELD(urlData, urlInfo, UF_SCHEMA));

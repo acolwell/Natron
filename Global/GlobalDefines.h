@@ -48,6 +48,7 @@
 #undef isalpha
 #undef isalnum
 
+#include <QtCore5Compat/qcore5global.h>
 #include <QtCore/QtGlobal>
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 #include <QtCore/QForeachContainer>

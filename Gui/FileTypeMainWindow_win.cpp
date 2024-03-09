@@ -50,7 +50,7 @@
 #include <QApplication>
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 NATRON_NAMESPACE_ENTER
 
@@ -87,9 +87,8 @@ DocumentWindow::~DocumentWindow()
 // —— public slots ——————————————————————————
 // —— protected slots —————————————————————————
 // —— events ————————————————————————————
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 bool
-DocumentWindow::nativeEvent(const QByteArray& eventType, void* message, long* result)
+DocumentWindow::nativeEvent(const QByteArray& eventType, void* message,  qintptr* result)
 {
     MSG* msg = static_cast<MSG*>(message);
     switch (msg->message) {
@@ -109,28 +108,6 @@ DocumentWindow::nativeEvent(const QByteArray& eventType, void* message, long* re
 
     return QMainWindow::nativeEvent(eventType, message, result);
 }
-#else
-bool
-DocumentWindow::winEvent(MSG* msg,  long *result)
-{
-    switch (msg->message) {
-    case WM_DDE_INITIATE:
-
-        return ddeInitiate(msg, result);
-        break;
-    case WM_DDE_EXECUTE:
-
-        return ddeExecute(msg, result);
-        break;
-    case WM_DDE_TERMINATE:
-
-        return ddeTerminate(msg, result);
-        break;
-    }
-
-    return QMainWindow::winEvent(msg, result);
-}
-#endif
 
 void
 DocumentWindow::ddeOpenFile(const QString&)
@@ -255,7 +232,7 @@ DocumentWindow::enableShellOpen()
 // —— private helpers —————————————————————————
 bool
 DocumentWindow::ddeInitiate(MSG* message,
-                            long* result)
+                            qintptr* result)
 {
     if ( ( 0 != LOWORD(message->lParam) ) &&
          ( 0 != HIWORD(message->lParam) ) &&
@@ -280,7 +257,7 @@ DocumentWindow::ddeInitiate(MSG* message,
 
 bool
 DocumentWindow::ddeExecute(MSG* message,
-                           long* result)
+                           qintptr* result)
 {
     // unpack the DDE message
     UINT_PTR unused = 0;
@@ -317,7 +294,7 @@ DocumentWindow::ddeExecute(MSG* message,
 
 bool
 DocumentWindow::ddeTerminate(MSG* message,
-                             long* result)
+                             qintptr* result)
 {
     Q_UNUSED(result);
     // The client or server application should respond by posting a WM_DDE_TERMINATE message.

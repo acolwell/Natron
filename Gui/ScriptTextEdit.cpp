@@ -33,7 +33,7 @@ CLANG_DIAG_OFF(uninitialized)
 #include <QScrollBar>
 #include <QTextBlock>
 #include <QPainter>
-#include <QtCore/QRegExp>
+#include <QRegExp>
 #include <QtCore/QMimeData>
 CLANG_DIAG_ON(deprecated)
 CLANG_DIAG_ON(uninitialized)
@@ -501,7 +501,7 @@ InputScriptTextEdit::dropEvent(QDropEvent* e)
 }
 
 void
-InputScriptTextEdit::enterEvent(QEvent* /*e*/)
+InputScriptTextEdit::enterEvent(QEnterEvent* /*e*/)
 {
     if ( acceptDrops() && (cursor().shape() != Qt::OpenHandCursor) ) {
         setCursor(Qt::OpenHandCursor);

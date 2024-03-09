@@ -9,8 +9,22 @@ def list_typesystem_cpp_sources(typesystem, out):
 
     package = root.attrib["package"]
 
-    tags = ["namespace-type", "object-type", "value-type"]
-    types = [child.attrib["name"] for child in root if child.tag in tags]
+    types = []
+    parentList = [(root, "")]
+    while len(parentList) > 0:
+        (parent, prefix) = parentList.pop(0)
+        for child in parent:
+            if child.tag == 'namespace-type':
+                newPrefix = child.attrib["name"]
+                if len(prefix) > 0:
+                    newPrefix = "{}_{}".format(prefix, newPrefix)
+                parentList.append((child, newPrefix))
+
+            if child.tag in ["namespace-type", "object-type", "value-type"]:
+                typeName = child.attrib["name"]
+                if len(prefix):
+                    typeName = "{}_{}".format(prefix, typeName)
+                types.append(typeName)
 
     sources = [f"{package.lower()}_module_wrapper.cpp"]
     sources.extend([f"{typename.lower()}_wrapper.cpp" for typename in types])

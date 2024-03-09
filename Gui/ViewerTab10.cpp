@@ -589,7 +589,7 @@ ViewerTab::previousLayer()
 }
 
 void
-ViewerTab::enterEvent(QEvent* e)
+ViewerTab::enterEvent(QEnterEvent* e)
 {
     enterEventBase();
     QWidget::enterEvent(e);

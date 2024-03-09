@@ -257,12 +257,16 @@ private:
     
     friend class boost::serialization::access;
 
+#ifndef SBK_RUN
     BOOST_SERIALIZATION_SPLIT_MEMBER()
+#endif
 };
 
 NATRON_NAMESPACE_EXIT
 
+#ifndef SBK_RUN
 BOOST_CLASS_VERSION(NATRON_NAMESPACE::ImagePlaneDesc, IMAGEPLANEDESC_SERIALIZATION_VERSION)
+#endif
 
 
 #endif // IMAGECOMPONENTS_H
