@@ -56,7 +56,10 @@ if [ "$PKGOS" = "Linux" ]; then
 #    export C_INCLUDE_PATH="${SDK_HOME}/gcc/include:${SDK_HOME}/include:${SDK_HOME}/qt${QT_VERSION_MAJOR}/include"
 #    export CPLUS_INCLUDE_PATH="${C_INCLUDE_PATH}"
 fi
-QMAKE="$QTDIR/bin/qmake"
+QMAKE="$QTDIR/bin/qmake${QT_VERSION_MAJOR}"
+if [ ! -x "$QMAKE" ]; then
+    QMAKE="$QTDIR/bin/qmake"
+fi
 
 cd "$TMP_PATH"
 
@@ -153,7 +156,7 @@ cat config.pri
 echo "========================================================================"
 
 # Generate pyside bindings (cmake can generate these, qmake can't)
-if [ "$QT_VERSION_MAJOR" = 5 ]; then
+if [ $QT_VERSION_MAJOR -ge 5 ]; then
     UNIX_PYTHON_HOME="${PYTHON_HOME}"
     UNIX_SDK_HOME="${SDK_HOME}"
     case "$system" in
@@ -172,15 +175,25 @@ if [ "$QT_VERSION_MAJOR" = 5 ]; then
         ;;
     esac
 
+    SHIBOKEN=shiboken2
+    PYSIDE_NAME=PySide2
+    POST_SHIBOKEN_NAME=runPostShiboken2.sh
+    if [ $QT_VERSION_MAJOR -gt 5 ]; then
+        SHIBOKEN=shiboken${QT_VERSION_MAJOR}
+        PYSIDE_NAME=PySide${QT_VERSION_MAJOR}
+        POST_SHIBOKEN_NAME=runPostShiboken${QT_VERSION_MAJOR}.sh
+    fi
+
     rm Engine/Qt${QT_VERSION_MAJOR}/NatronEngine/* Gui/Qt${QT_VERSION_MAJOR}/NatronGui/* || true
-    SHIBOKEN_INCLUDE_PATHS="-I. -I./Engine -I./Global -Ilibs/OpenFX/include -I${UNIX_SDK_HOME}/include -I${QTDIR}/include -I${UNIX_PYTHON_HOME}/include/python${PYVER} -I${UNIX_PYTHON_HOME}/include/PySide2 -I${UNIX_PYTHON_HOME}/lib/python${PYVER}/site-packages/PySide2/include"
-    SHIBOKEN_TYPESYSTEM_PATHS="-T${UNIX_PYTHON_HOME}/share/PySide2/typesystems -T${UNIX_PYTHON_HOME}/lib/python${PYVER}/site-packages/PySide2/typesystems"
-    shiboken2 --avoid-protected-hack --enable-pyside-extensions ${SHIBOKEN_INCLUDE_PATHS} ${SHIBOKEN_TYPESYSTEM_PATHS} --output-directory=Engine/Qt${QT_VERSION_MAJOR} Engine/Pyside2_Engine_Python.h  Engine/typesystem_engine.xml
+    SHIBOKEN_INCLUDE_PATHS="-I. -I./Engine -I./Global -Ilibs/OpenFX/include -I${UNIX_SDK_HOME}/include -I${QTDIR}/include -I${QTDIR}/include/qt${QT_VERSION_MAJOR} -I${UNIX_PYTHON_HOME}/include/python${PYVER} -I${UNIX_PYTHON_HOME}/include/${PYSIDE_NAME} -I${UNIX_PYTHON_HOME}/lib/python${PYVER}/site-packages/${PYSIDE_NAME}/include"
+    SHIBOKEN_TYPESYSTEM_PATHS="-T${UNIX_PYTHON_HOME}/share/${PYSIDE_NAME}/typesystems -T${UNIX_PYTHON_HOME}/lib/python${PYVER}/site-packages/${PYSIDE_NAME}/typesystems"
 
-    shiboken2 --avoid-protected-hack --enable-pyside-extensions ${SHIBOKEN_INCLUDE_PATHS} -I${QTDIR}/include/QtWidgets -I${QTDIR}/include/QtCore ${SHIBOKEN_TYPESYSTEM_PATHS} -T./Engine -T./Shiboken --output-directory=Gui/Qt${QT_VERSION_MAJOR} Gui/Pyside2_Gui_Python.h  Gui/typesystem_natronGui.xml
+    ${SHIBOKEN} --avoid-protected-hack --enable-pyside-extensions ${SHIBOKEN_INCLUDE_PATHS} ${SHIBOKEN_TYPESYSTEM_PATHS} --output-directory=Engine/Qt${QT_VERSION_MAJOR} Engine/${PYSIDE_NAME}_Engine_Python.h  Engine/typesystem_engine.xml
 
-    tools/utils/runPostShiboken2.sh Engine/Qt${QT_VERSION_MAJOR}/NatronEngine natronengine
-    tools/utils/runPostShiboken2.sh Gui/Qt${QT_VERSION_MAJOR}/NatronGui natrongui
+    ${SHIBOKEN} --avoid-protected-hack --enable-pyside-extensions ${SHIBOKEN_INCLUDE_PATHS} -I${QTDIR}/include/qt${QT_VERSION_MAJOR}/QtWidgets -I${QTDIR}/include/qt${QT_VERSION_MAJOR}/QtCore ${SHIBOKEN_TYPESYSTEM_PATHS} -T./Engine -T./Shiboken --output-directory=Gui/Qt${QT_VERSION_MAJOR} Gui/${PYSIDE_NAME}_Gui_Python.h  Gui/typesystem_natronGui.xml
+
+    tools/utils/${POST_SHIBOKEN_NAME} Engine/Qt${QT_VERSION_MAJOR}/NatronEngine natronengine
+    tools/utils/${POST_SHIBOKEN_NAME} Gui/Qt${QT_VERSION_MAJOR}/NatronGui natrongui
 
 fi
 

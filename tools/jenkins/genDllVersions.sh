@@ -140,6 +140,20 @@ elif [ "$QT_VERSION_MAJOR" = "5" ]; then
     catDll libicuin
     catDll libpcre2-16-
     catDll libmd4c
+elif [ "$QT_VERSION_MAJOR" = "6" ]; then
+    catDll Qt6Concurrent
+    catDll Qt6Core
+    catDll Qt6Core5Compat
+    catDll Qt6Gui
+    catDll Qt6Network
+    catDll Qt6OpenGL
+    catDll Qt6OpenGLWidgets
+    catDll Qt6Widgets
+
+    catDll libdouble-conversion
+    catDll libicuin
+    catDll libpcre2-16-
+    catDll libmd4c
 else
     echo "Unsupported QT_MAJOR_VERSION" ${QT_VERSION_MAJOR}
     exit 1
@@ -272,6 +286,9 @@ catDll libpython${PYVER}
 if [ "$PYV" = 2 ]; then
     catDll libpyside-python${PYVER}
     catDll libshiboken-python${PYVER}
+elif [ "$QT_VERSION_MAJOR" = "6" ]; then
+    catDll libpyside6.
+    catDll libshiboken6
 else
     catDll libpyside
     catDll libshiboken

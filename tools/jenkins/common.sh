@@ -397,7 +397,7 @@ if [ -d "$SDK_HOME/qt${QT_VERSION_MAJOR}" ]; then
     QTDIR="$SDK_HOME/qt${QT_VERSION_MAJOR}"
 elif [ -d "$SDK_HOME/libexec/qt${QT_VERSION_MAJOR}" ]; then
     QTDIR="$SDK_HOME/libexec/qt${QT_VERSION_MAJOR}"
-elif [ -x "$SDK_HOME/bin/qmake" ] || [ -x "$SDK_HOME/bin/qmake.exe" ]; then
+elif [ -x "$SDK_HOME/bin/qmake" ] || [ -x "$SDK_HOME/bin/qmake.exe" ] || [ -x "$SDK_HOME/bin/qmake${QT_VERSION_MAJOR}" ] || [ -x "$SDK_HOME/bin/qmake${QT_VERSION_MAJOR}.exe"]; then
     QTDIR="$SDK_HOME"
 else
     (>&2 echo "Warning: Qt cannot be found in $SDK_HOME or $SDK_HOME/qt${QT_VERSION_MAJOR}")

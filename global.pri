@@ -17,7 +17,7 @@
 # along with Natron.  If not, see <http://www.gnu.org/licenses/gpl-2.0.html>
 # ***** END LICENSE BLOCK *****
 
-CONFIG += c++11 c++14
+CONFIG += c++11 c++17
 
 # libs may modify the config (eg openmp), so it must be included before
 include(libs.pri)
@@ -309,10 +309,10 @@ macx-clang-libc++ {
     QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=$$QMAKE_MACOSX_DEPLOYMENT_TARGET
     QMAKE_OBJECTIVE_CXXFLAGS += -stdlib=libc++ -mmacosx-version-min=$$QMAKE_MACOSX_DEPLOYMENT_TARGET
     c++11 {
-      c++14 {
-        QMAKE_OBJECTIVE_CXXFLAGS += -std=c++14
+      c++17 {
+        QMAKE_OBJECTIVE_CXXFLAGS += -std=c++17
       }
-      !c++14 {
+      !c++17 {
         QMAKE_OBJECTIVE_CXXFLAGS += -std=c++11
       }
     }
@@ -323,10 +323,10 @@ macx-clang {
     QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=$$QMAKE_MACOSX_DEPLOYMENT_TARGET
     QMAKE_OBJECTIVE_CXXFLAGS += -mmacosx-version-min=$$QMAKE_MACOSX_DEPLOYMENT_TARGET
     c++11 {
-      c++14 {
-        QMAKE_OBJECTIVE_CXXFLAGS += -std=c++14
+      c++17 {
+        QMAKE_OBJECTIVE_CXXFLAGS += -std=c++17
       }
-      !c++14 {
+      !c++17 {
         QMAKE_OBJECTIVE_CXXFLAGS += -std=c++11
       }
     }
@@ -418,6 +418,16 @@ win32-g++ {
 
     expat:     PKGCONFIG += expat
     cairo:     PKGCONFIG += cairo fontconfig
+    equals(QT_MAJOR_VERSION, 6) {
+      shiboken:  INCLUDEPATH += $$system(pkg-config --variable=includedir shiboken6)
+      PYSIDE_INCLUDEDIR = $$system(pkg-config --variable=includedir pyside6)
+      pyside:    INCLUDEPATH += $$PYSIDE_INCLUDEDIR
+      pyside:    INCLUDEPATH += $$PYSIDE_INCLUDEDIR/QtCore
+      pyside:    INCLUDEPATH += $$PYSIDE_INCLUDEDIR/QtGui
+      pyside:    INCLUDEPATH += $$PYSIDE_INCLUDEDIR/QtWidgets
+      shiboken:  PKGCONFIG += shiboken6
+      pyside:    PKGCONFIG += pyside6
+    }
     equals(QT_MAJOR_VERSION, 5) {
       shiboken:  INCLUDEPATH += $$system(pkg-config --variable=includedir shiboken2)
       PYSIDE_INCLUDEDIR = $$system(pkg-config --variable=includedir pyside2)
@@ -472,7 +482,19 @@ unix {
           INCLUDEPATH *= $$PYTHON_INCLUDEPATH
      }
 
-    equals(QT_MAJOR_VERSION, 5) {
+    equals(QT_MAJOR_VERSION, 6) {
+        system(pkg-config --exists pyside6) {
+            shiboken: PKGCONFIG += shiboken6
+            pyside:   PKGCONFIG += pyside6
+            # add QtCore to includes
+            PYSIDE_INCLUDEDIR = $$system(pkg-config --variable=includedir pyside6)
+            pyside:   INCLUDEPATH += $$PYSIDE_INCLUDEDIR/QtCore
+            pyside:   INCLUDEPATH += $$PYSIDE_INCLUDEDIR/QtGui
+            pyside:   INCLUDEPATH += $$PYSIDE_INCLUDEDIR/QtWidgets
+        }
+    }
+
+     equals(QT_MAJOR_VERSION, 5) {
         system(pkg-config --exists pyside2) {
             shiboken: PKGCONFIG += shiboken2
             pyside:   PKGCONFIG += pyside2
@@ -528,13 +550,13 @@ unix {
   symbols_hidden_by_default.value = YES
   QMAKE_MAC_XCODE_SETTINGS += symbols_hidden_by_default
   c++11 {
-    c++14 {
-      QMAKE_CXXFLAGS += -std=c++14
-      enable_cxx14.name = CLANG_CXX_LANGUAGE_STANDARD
-      enable_cxx14.value = c++14
-      QMAKE_MAC_XCODE_SETTINGS += enable_cxx14
+    c++17 {
+      QMAKE_CXXFLAGS += -std=c++17
+      enable_cxx17.name = CLANG_CXX_LANGUAGE_STANDARD
+      enable_cxx17.value = c++17
+      QMAKE_MAC_XCODE_SETTINGS += enable_cxx17
     }
-    !c++14 {
+    !c++17 {
       QMAKE_CXXFLAGS += -std=c++11
       enable_cxx11.name = CLANG_CXX_LANGUAGE_STANDARD
       enable_cxx11.value = c++0x
@@ -547,10 +569,10 @@ unix {
   QMAKE_CXXFLAGS += -ftemplate-depth-1024
   QMAKE_CXXFLAGS_WARN_ON += -Wno-c++11-extensions
   c++11 {
-    c++14 {
-      QMAKE_CXXFLAGS += -std=c++14
+    c++17 {
+      QMAKE_CXXFLAGS += -std=c++17
     }
-    !c++14 {
+    !c++17 {
       QMAKE_CXXFLAGS += -std=c++11
     }
   }

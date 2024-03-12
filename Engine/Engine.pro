@@ -24,6 +24,7 @@ CONFIG += moc
 CONFIG += boost boost-serialization-lib qt cairo python shiboken pyside 
 QT += core network
 greaterThan(QT_MAJOR_VERSION, 4): QT += concurrent
+greaterThan(QT_MAJOR_VERSION, 5): QT += core5compat
 
 ENGINE_WRAPPER_DIR = Qt$${QT_MAJOR_VERSION}/NatronEngine
 
@@ -433,54 +434,10 @@ HEADERS += \
     $${ENGINE_WRAPPER_DIR}/natronengine_python.h \
 
 ENGINE_GENERATED_SOURCES = \
-    animatedparam_wrapper \
-    app_wrapper \
-    appsettings_wrapper \
-    beziercurve_wrapper \
-    booleanparam_wrapper \
-    boolnodecreationproperty_wrapper \
-    buttonparam_wrapper \
-    choiceparam_wrapper \
-    colorparam_wrapper \
-    colortuple_wrapper \
-    double2dparam_wrapper \
-    double2dtuple_wrapper \
-    double3dparam_wrapper \
-    double3dtuple_wrapper \
-    doubleparam_wrapper \
-    effect_wrapper \
-    exprutils_wrapper \
-    fileparam_wrapper \
-    floatnodecreationproperty_wrapper \
-    group_wrapper \
-    groupparam_wrapper \
-    imagelayer_wrapper \
-    int2dparam_wrapper \
-    int2dtuple_wrapper \
-    int3dparam_wrapper \
-    int3dtuple_wrapper \
-    intnodecreationproperty_wrapper \
-    intparam_wrapper \
-    itembase_wrapper \
-    layer_wrapper \
-    natron_enum_wrapper \
-    nodecreationproperty_wrapper \
-    outputfileparam_wrapper \
-    pageparam_wrapper \
-    param_wrapper \
-    parametricparam_wrapper \
-    pathparam_wrapper \
-    pycoreapplication_wrapper \
-    rectd_wrapper \
-    recti_wrapper \
-    roto_wrapper \
-    separatorparam_wrapper \
-    stringnodecreationproperty_wrapper \
-    stringparam_wrapper \
-    stringparambase_wrapper \
-    track_wrapper \
-    tracker_wrapper \
-    userparamholder_wrapper \
+    natron_python_wrapper \
+    natron_rectd_wrapper \
+    natron_recti_wrapper \
+    natron_wrapper \
 
 for(name, ENGINE_GENERATED_SOURCES) {
     SOURCES += $${ENGINE_WRAPPER_DIR}/$${name}.cpp
@@ -490,58 +447,6 @@ for(name, ENGINE_GENERATED_SOURCES) {
 
 OTHER_FILES += \
     typesystem_engine.xml
-
-# GENERATED_SOURCES =				\
-# NatronEngine/animatedparam_wrapper.cpp		\
-# NatronEngine/app_wrapper.cpp			\
-# NatronEngine/beziercurve_wrapper.cpp		\
-# NatronEngine/booleanparam_wrapper.cpp		\
-# NatronEngine/buttonparam_wrapper.cpp		\
-# NatronEngine/choiceparam_wrapper.cpp		\
-# NatronEngine/colorparam_wrapper.cpp		\
-# NatronEngine/colortuple_wrapper.cpp		\
-# NatronEngine/double2dparam_wrapper.cpp		\
-# NatronEngine/double2dtuple_wrapper.cpp		\
-# NatronEngine/double3dparam_wrapper.cpp		\
-# NatronEngine/double3dtuple_wrapper.cpp		\
-# NatronEngine/doubleparam_wrapper.cpp		\
-# NatronEngine/effect_wrapper.cpp			\
-# NatronEngine/fileparam_wrapper.cpp		\
-# NatronEngine/group_wrapper.cpp			\
-# NatronEngine/groupparam_wrapper.cpp		\
-# NatronEngine/int2dparam_wrapper.cpp		\
-# NatronEngine/int2dtuple_wrapper.cpp		\
-# NatronEngine/int3dparam_wrapper.cpp		\
-# NatronEngine/int3dtuple_wrapper.cpp		\
-# NatronEngine/intparam_wrapper.cpp		\
-# NatronEngine/itembase_wrapper.cpp		\
-# NatronEngine/layer_wrapper.cpp			\
-# NatronEngine/natron_wrapper.cpp			\
-# NatronEngine/natronengine_module_wrapper.cpp	\
-# NatronEngine/outputfileparam_wrapper.cpp	\
-# NatronEngine/pageparam_wrapper.cpp		\
-# NatronEngine/param_wrapper.cpp			\
-# NatronEngine/parametricparam_wrapper.cpp	\
-# NatronEngine/pathparam_wrapper.cpp		\
-# NatronEngine/roto_wrapper.cpp			\
-# NatronEngine/stringparam_wrapper.cpp		\
-# NatronEngine/stringparambase_wrapper.cpp
-
-# defineReplace(shibokenWorkaround) {
-#     SOURCES += $$GENERATED_SOURCES
-#     return("%_wrapper.cpp")
-# }
-
-# isEmpty(SHIBOKEN) {
-#    SHIBOKEN = shiboken
-# }
-
-# SHIBOKEN_FILE  = . # Need to give some bogus input
-# SHIBOKEN.input = SHIBOKEN_FILE
-# SHIBOKEN.output_function = shibokenWorkaround
-# SHIBOKEN.commands = $$SHIBOKEN --include-paths=..:$$system(pkg-config --variable=includedir pyside)  --typesystem-paths=$$system(pkg-config --variable=typesystemdir pyside) Pyside_Engine_Python.h typesystem_engine.xml
-# SHIBOKEN.CONFIG = no_link # don't add the .cpp target file to OBJECTS
-# SHIBOKEN.clean = dummy # don't remove the %_wrapper.cpp file by "make clean"
 
 # QMAKE_EXTRA_COMPILERS += SHIBOKEN
 macx {

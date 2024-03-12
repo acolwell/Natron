@@ -203,7 +203,7 @@ fi
 
 COMPILER=${COMPILER:-gcc}
 CC=${CC:-gcc}
-CXX=${CXX:-g++ -std=${STD14}}
+CXX=${CXX:-g++ -std=${STD17}}
 CXX17=${CXX17:-g++ -std=${STD17}}
 OBJECTIVE_CC=${OBJECTIVE_CC:-${CC}}
 OBJECTIVE_CXX=${OBJECTIVE_CXX:-${CXX}}

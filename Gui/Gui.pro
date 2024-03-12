@@ -26,6 +26,10 @@ QT += gui core network
 
 greaterThan(QT_MAJOR_VERSION, 4) {
     QT += concurrent widgets
+
+    greaterThan(QT_MAJOR_VERSION, 5) {
+        QT += core5compat openglwidgets
+    }
 } else {
     QT += opengl
 }
@@ -386,13 +390,7 @@ HEADERS += \
     ../libs/OpenFX_extensions/ofxhParametricParam.h \
     $${GUI_WRAPPER_DIR}/natrongui_python.h \
 
-GUI_GENERATED_SOURCES = \
-    guiapp_wrapper \
-    pyguiapplication_wrapper \
-    pymodaldialog_wrapper \
-    pypanel_wrapper \
-    pytabwidget_wrapper \
-    pyviewer_wrapper
+GUI_GENERATED_SOURCES = 
 
 for(name, GUI_GENERATED_SOURCES) {
     SOURCES += $${GUI_WRAPPER_DIR}/$${name}.cpp
