@@ -20,7 +20,7 @@ cd ${NATRON_REPO_DIR}
 
 WINDOWS_PACMAN_REPO_VERSION=`cat ${NATRON_DIR}/tools/MINGW-packages/windows_pacman_repo_version.txt`
 ZIP_FILENAME="natron_package_repo-${WINDOWS_PACMAN_REPO_VERSION}.zip"
-wget https://github.com/NatronGitHub/Natron/releases/download/windows-mingw-package-repo/${ZIP_FILENAME}
+wget https://github.com/acolwell/Natron/releases/download/qt6-windows-mingw-package-repo/${ZIP_FILENAME}
 
 if [[ -e ${ZIP_FILENAME} ]]; then
     unzip ${ZIP_FILENAME}

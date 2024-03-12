@@ -32,10 +32,7 @@ jobs:
       - name: Install Natron pacman repository
         run: |
           ${GITHUB_WORKSPACE}/.github/workflows/install_natron_pacman_repo.sh ${GITHUB_WORKSPACE} ${GITHUB_WORKSPACE}/natron_pacman_repo
-          pacman -S --needed --noconfirm mingw-w64-x86_64-natron-build-deps-qt5
-
-          pacman -Rs mingw-w64-x86_64-qt5-base mingw-w64-x86_64-pyside2 mingw-w64-x86_64-shiboken2
-          pacman -S --needed --noconfirm mingw-w64-x86_64-qt6-base mingw-w64-x86_64-pyside6 mingw-w64-x86_64-shiboken6
+          pacman -S --needed --noconfirm mingw-w64-x86_64-natron-build-deps-qt6
 
       - name: Build
         id: build
@@ -68,8 +65,8 @@ jobs:
 
       - name: Uninstall Natron dependencies
         run: |
-          pacman -Rs --noconfirm mingw-w64-x86_64-natron-build-deps-qt5
-          pacman -Rs mingw-w64-x86_64-qt6-base mingw-w64-x86_64-pyside6 mingw-w64-x86_64-shiboken6
+          pacman -Rs --noconfirm mingw-w64-x86_64-natron-build-deps-qt6
+
       - name: Verify plugin loading
         run: |
           INSTALLER_DIR=$(cygpath -u '${{ steps.build.outputs.INSTALLER_DIR }}')/${{ steps.build.outputs.INSTALLER_NAME }}
@@ -107,10 +104,8 @@ jobs:
       - name: Install Natron pacman repository
         run: |
           ${GITHUB_WORKSPACE}/.github/workflows/install_natron_pacman_repo.sh ${GITHUB_WORKSPACE} ${GITHUB_WORKSPACE}/natron_pacman_repo
-          pacman -S --needed --noconfirm mingw-w64-x86_64-natron-build-deps-qt5
+          pacman -S --needed --noconfirm mingw-w64-x86_64-natron-build-deps-qt6
 
-          pacman -Rs mingw-w64-x86_64-qt5-base mingw-w64-x86_64-pyside2 mingw-w64-x86_64-shiboken2
-          pacman -S --needed --noconfirm mingw-w64-x86_64-qt6-base mingw-w64-x86_64-pyside6 mingw-w64-x86_64-shiboken6
       - name: Build
         id: build
         run: |
@@ -152,8 +147,7 @@ jobs:
 
       - name: Uninstall Natron dependencies
         run: |
-          pacman -Rs --noconfirm mingw-w64-x86_64-natron-build-deps-qt5
-          pacman -Rs mingw-w64-x86_64-qt6-base mingw-w64-x86_64-pyside6 mingw-w64-x86_64-shiboken6
+          pacman -Rs --noconfirm mingw-w64-x86_64-natron-build-deps-qt6
 
       - name: Verify plugin loading
         run: |
