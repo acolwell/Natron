@@ -203,9 +203,9 @@ jobs:
       - name: Zip artifacts
         run: |
           cd artifacts
-          zip -r ${{ needs.win-installer.outputs.win_installer_artifact }}.zip ${{ needs.win-installer.outputs.win_installer_artifact }}/*
-          zip -r ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_artifact }}.zip ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_artifact }}/*
-          zip -r ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_symbols_artifact }}.zip ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_symbols_artifact }}/*
+          (cd ${{ needs.win-installer.outputs.win_installer_artifact }}; zip -r ../${{ needs.win-installer.outputs.win_installer_artifact }}.zip *)
+          (cd ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_artifact }}; zip -r ../${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_artifact }}.zip *)
+          (cd ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_symbols_artifact }}; zip -r ../${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_symbols_artifact }}.zip *)
 
       - name: Display structure of downloaded files
         run: ls -R artifacts
