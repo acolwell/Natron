@@ -390,7 +390,13 @@ HEADERS += \
     ../libs/OpenFX_extensions/ofxhParametricParam.h \
     $${GUI_WRAPPER_DIR}/natrongui_python.h \
 
-GUI_GENERATED_SOURCES = 
+GUI_GENERATED_SOURCES = \
+    natron_python_guiapp_wrapper \
+    natron_python_pyguiapplication_wrapper \
+    natron_python_pymodaldialog_wrapper \
+    natron_python_pypanel_wrapper \
+    natron_python_pytabwidget_wrapper \
+    natron_python_pyviewer_wrapper \
 
 for(name, GUI_GENERATED_SOURCES) {
     SOURCES += $${GUI_WRAPPER_DIR}/$${name}.cpp

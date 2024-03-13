@@ -434,10 +434,53 @@ HEADERS += \
     $${ENGINE_WRAPPER_DIR}/natronengine_python.h \
 
 ENGINE_GENERATED_SOURCES = \
-    natron_python_wrapper \
+    natron_python_animatedparam_wrapper \
+    natron_python_app_wrapper \
+    natron_python_appsettings_wrapper \
+    natron_python_beziercurve_wrapper \
+    natron_python_booleanparam_wrapper \
+    natron_python_boolnodecreationproperty_wrapper \
+    natron_python_buttonparam_wrapper \
+    natron_python_choiceparam_wrapper \
+    natron_python_colorparam_wrapper \
+    natron_python_colortuple_wrapper \
+    natron_python_double2dparam_wrapper \
+    natron_python_double2dtuple_wrapper \
+    natron_python_double3dparam_wrapper \
+    natron_python_double3dtuple_wrapper \
+    natron_python_doubleparam_wrapper \
+    natron_python_effect_wrapper \
+    natron_python_exprutils_wrapper \
+    natron_python_fileparam_wrapper \
+    natron_python_floatnodecreationproperty_wrapper \
+    natron_python_group_wrapper \
+    natron_python_groupparam_wrapper \
+    natron_python_imagelayer_wrapper \
+    natron_python_int2dparam_wrapper \
+    natron_python_int2dtuple_wrapper \
+    natron_python_int3dparam_wrapper \
+    natron_python_int3dtuple_wrapper \
+    natron_python_intnodecreationproperty_wrapper \
+    natron_python_intparam_wrapper \
+    natron_python_itembase_wrapper \
+    natron_python_layer_wrapper \
+    natron_python_nodecreationproperty_wrapper \
+    natron_python_outputfileparam_wrapper \
+    natron_python_pageparam_wrapper \
+    natron_python_param_wrapper \
+    natron_python_parametricparam_wrapper \
+    natron_python_pathparam_wrapper \
+    natron_python_pycoreapplication_wrapper \
+    natron_python_roto_wrapper \
+    natron_python_separatorparam_wrapper \
+    natron_python_stringnodecreationproperty_wrapper \
+    natron_python_stringparam_wrapper \
+    natron_python_stringparambase_wrapper \
+    natron_python_track_wrapper \
+    natron_python_tracker_wrapper \
+    natron_python_userparamholder_wrapper \
     natron_rectd_wrapper \
     natron_recti_wrapper \
-    natron_wrapper \
 
 for(name, ENGINE_GENERATED_SOURCES) {
     SOURCES += $${ENGINE_WRAPPER_DIR}/$${name}.cpp
