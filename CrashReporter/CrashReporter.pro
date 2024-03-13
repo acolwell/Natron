@@ -45,6 +45,7 @@ CONFIG += moc
 CONFIG += qt
 QT       += core network gui opengl
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 5) QT += openglwidgets
 CONFIG += static-breakpadclient
 
 include(../global.pri)
