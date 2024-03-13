@@ -155,7 +155,7 @@ public:
 
 #ifdef NATRON_USE_BREAKPAD
     QString breakpadProcessExecutableFilePath;
-    Q_PID breakpadProcessPID;
+    qint64 breakpadProcessPID;
     std::shared_ptr<google_breakpad::ExceptionHandler> breakpadHandler;
     ExistenceCheckerThreadPtr breakpadAliveThread;
 #endif

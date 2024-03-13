@@ -188,9 +188,9 @@ if [ $QT_VERSION_MAJOR -ge 5 ]; then
     SHIBOKEN_INCLUDE_PATHS="-I. -I./Engine -I./Global -Ilibs/OpenFX/include -I${UNIX_SDK_HOME}/include -I${QTDIR}/include -I${QTDIR}/include/qt${QT_VERSION_MAJOR} -I${UNIX_PYTHON_HOME}/include/python${PYVER} -I${UNIX_PYTHON_HOME}/include/${PYSIDE_NAME} -I${UNIX_PYTHON_HOME}/lib/python${PYVER}/site-packages/${PYSIDE_NAME}/include"
     SHIBOKEN_TYPESYSTEM_PATHS="-T${UNIX_PYTHON_HOME}/share/${PYSIDE_NAME}/typesystems -T${UNIX_PYTHON_HOME}/lib/python${PYVER}/site-packages/${PYSIDE_NAME}/typesystems"
 
-    ${SHIBOKEN} --avoid-protected-hack --enable-pyside-extensions ${SHIBOKEN_INCLUDE_PATHS} ${SHIBOKEN_TYPESYSTEM_PATHS} --output-directory=Engine/Qt${QT_VERSION_MAJOR} Engine/${PYSIDE_NAME}_Engine_Python.h  Engine/typesystem_engine.xml
+    ${SHIBOKEN} --enable-parent-ctor-heuristic --use-isnull-as-nb_nonzero --avoid-protected-hack --enable-pyside-extensions ${SHIBOKEN_INCLUDE_PATHS} ${SHIBOKEN_TYPESYSTEM_PATHS} --output-directory=Engine/Qt${QT_VERSION_MAJOR} Engine/${PYSIDE_NAME}_Engine_Python.h  Engine/typesystem_engine.xml
 
-    ${SHIBOKEN} --avoid-protected-hack --enable-pyside-extensions ${SHIBOKEN_INCLUDE_PATHS} -I${QTDIR}/include/qt${QT_VERSION_MAJOR}/QtWidgets -I${QTDIR}/include/qt${QT_VERSION_MAJOR}/QtCore ${SHIBOKEN_TYPESYSTEM_PATHS} -T./Engine -T./Shiboken --output-directory=Gui/Qt${QT_VERSION_MAJOR} Gui/${PYSIDE_NAME}_Gui_Python.h  Gui/typesystem_natronGui.xml
+    ${SHIBOKEN} --enable-parent-ctor-heuristic --use-isnull-as-nb_nonzero --avoid-protected-hack --enable-pyside-extensions ${SHIBOKEN_INCLUDE_PATHS} -I${QTDIR}/include/qt${QT_VERSION_MAJOR}/QtWidgets -I${QTDIR}/include/qt${QT_VERSION_MAJOR}/QtCore ${SHIBOKEN_TYPESYSTEM_PATHS} -T./Engine --output-directory=Gui/Qt${QT_VERSION_MAJOR} Gui/${PYSIDE_NAME}_Gui_Python.h  Gui/typesystem_natronGui.xml
 
     tools/utils/${POST_SHIBOKEN_NAME} Engine/Qt${QT_VERSION_MAJOR}/NatronEngine natronengine
     tools/utils/${POST_SHIBOKEN_NAME} Gui/Qt${QT_VERSION_MAJOR}/NatronGui natrongui

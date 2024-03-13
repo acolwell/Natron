@@ -44,7 +44,7 @@
 #include <QStyle>
 #include <QSettings>
 
-#include <QtOpenGL/QGLWidget>
+#include <QOpenGLWidget>
 #ifdef __APPLE__
 #  include <OpenGL/gl.h>
 #  include <OpenGL/glext.h>
@@ -359,7 +359,7 @@ CrashDialog::CrashDialog(const QString &filePath)
 
     _sendButton->setFocus();
 
-    QGLWidget GLwidget;
+    QOpenGLWidget GLwidget;
     if ( GLwidget.isValid() ) {
         GLwidget.makeCurrent();
         _GLrenderer = QString::fromUtf8( (char *) glGetString(GL_RENDERER) );
@@ -572,9 +572,7 @@ CrashDialog::onSaveClicked()
     QString saveFileName = QFileDialog::getSaveFileName(this,
                                                         tr("Save report"),
                                                         fileName,
-                                                        QString::fromUtf8("*.dmp"),
-                                                        0,
-                                                        0);
+                                                        QString::fromUtf8("*.dmp"));
     if ( !saveFileName.isEmpty() ) {
         saveOk = QFile::copy(_filePath, saveFileName);
     } else {
