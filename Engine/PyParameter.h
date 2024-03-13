@@ -264,7 +264,7 @@ public:
     bool setExpression(const QString& expr, bool hasRetVariable, int dimension = 0);
     QString getExpression(int dimension, bool* hasRetVariable) const;
 
-    bool setInterpolationAtTime(double time, NATRON_ENUM::KeyframeTypeEnum interpolation, int dimension = 0);
+    bool setInterpolationAtTime(double time, Natron::KeyframeTypeEnum interpolation, int dimension = 0);
 };
 
 /**
@@ -1169,31 +1169,31 @@ public:
 
     void getCurveColor(int dimension, ColorTuple& ret) const;
 
-    NATRON_ENUM::StatusEnum addControlPoint(int dimension, double key, double value, NATRON_ENUM::KeyframeTypeEnum interpolation = NATRON_ENUM::eKeyframeTypeSmooth);
-    NATRON_ENUM::StatusEnum addControlPoint(int dimension, double key, double value, double leftDerivative, double rightDerivative, NATRON_ENUM::KeyframeTypeEnum interpolation = NATRON_ENUM::eKeyframeTypeSmooth);
+    Natron::StatusEnum addControlPoint(int dimension, double key, double value, Natron::KeyframeTypeEnum interpolation = Natron::eKeyframeTypeSmooth);
+    Natron::StatusEnum addControlPoint(int dimension, double key, double value, double leftDerivative, double rightDerivative, Natron::KeyframeTypeEnum interpolation = Natron::eKeyframeTypeSmooth);
 
     double getValue(int dimension, double parametricPosition) const;
 
     int getNControlPoints(int dimension) const;
 
-    // NATRON_ENUM:: is necessary for shiboken
-    NATRON_ENUM::StatusEnum getNthControlPoint(int dimension,
+    // Natron:: is necessary for shiboken
+    Natron::StatusEnum getNthControlPoint(int dimension,
                                                     int nthCtl,
                                                     double *key,
                                                     double *value,
                                                     double *leftDerivative,
                                                     double *rightDerivative) const;
-    NATRON_ENUM::StatusEnum setNthControlPoint(int dimension,
+    Natron::StatusEnum setNthControlPoint(int dimension,
                                                     int nthCtl,
                                                     double key,
                                                     double value,
                                                     double leftDerivative,
                                                     double rightDerivative);
-    NATRON_ENUM::StatusEnum setNthControlPointInterpolation(int dimension,
+    Natron::StatusEnum setNthControlPointInterpolation(int dimension,
                                                                  int nThCtl,
-                                                                 NATRON_ENUM::KeyframeTypeEnum interpolation);
-    NATRON_ENUM::StatusEnum deleteControlPoint(int dimension, int nthCtl);
-    NATRON_ENUM::StatusEnum deleteAllControlPoints(int dimension);
+                                                                 Natron::KeyframeTypeEnum interpolation);
+    Natron::StatusEnum deleteControlPoint(int dimension, int nthCtl);
+    Natron::StatusEnum deleteAllControlPoints(int dimension);
 
     void setDefaultCurvesFromCurrentCurves();
 };

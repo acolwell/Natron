@@ -52,7 +52,7 @@ public:
     void setScriptName(const QString& scriptName);
     QString getScriptName() const;
 
-    Param* getParam(const QString& scriptName) const;
+    Natron::Python::Param* getParam(const QString& scriptName) const;
 
     std::list<Param*> getParams() const;
 

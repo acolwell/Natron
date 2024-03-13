@@ -20,7 +20,7 @@ def list_typesystem_cpp_sources(typesystem, out):
                     newPrefix = "{}_{}".format(prefix, newPrefix)
                 parentList.append((child, newPrefix))
 
-            if child.tag in ["namespace-type", "object-type", "value-type"]:
+            if child.tag in ["object-type", "value-type"]:
                 typeName = child.attrib["name"]
                 if len(prefix):
                     typeName = "{}_{}".format(prefix, typeName)

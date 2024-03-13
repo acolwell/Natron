@@ -20,9 +20,6 @@
 # The binary name needs to be NatronRenderer as this is what the user lauches
 # It is renamed during deployment
 TARGET = NatronRendererCrashReporter
-QT       += core network
-QT       -= gui
-greaterThan(QT_MAJOR_VERSION, 5) QT += openglwidgets
 
 # - on Linux and OSX, make a symbolic link to the NatronRenderer binary
 #  (which is inside Natron.app on OSX) next to the NatronRendererCrashReporter binary
@@ -37,6 +34,9 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG += moc
 CONFIG += qt
+QT       += core network
+QT       -= gui
+greaterThan(QT_MAJOR_VERSION, 5) QT += openglwidgets
 CONFIG += static-breakpadclient
 TEMPLATE = app
 

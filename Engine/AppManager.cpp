@@ -3006,6 +3006,7 @@ AppManager::initPython()
     }
 
     if ( !isBackground() ) {
+
         modulename = NATRON_GUI_PYTHON_MODULE_NAME;
         ok = NATRON_PYTHON_NAMESPACE::interpretPythonScript("import sys\nimport " + modulename, &err, 0);
         assert(ok);
@@ -3043,8 +3044,10 @@ AppManager::initPython()
     // https://github.com/spyder-ide/qtpy
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     qputenv("QT_API", "pyside");
-#else
+#elif QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     qputenv("QT_API", "pyside2");
+#else
+    qputenv("QT_API", "pyside6");
 #endif
 } // AppManager::initPython
 

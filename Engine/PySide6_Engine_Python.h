@@ -24,8 +24,6 @@
 // Defined for shiboken2-specific tweaks
 #define SBK6_RUN
 
-//#include "Pyside_Engine_Python.h"
-#include "RectD.h"
-#include "RectI.h"
+#include "Pyside_Engine_Python.h"
 
 #endif // PYSIDE6_ENGINE_PYTHON_H
