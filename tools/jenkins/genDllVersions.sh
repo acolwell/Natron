@@ -154,13 +154,14 @@ elif [ "$QT_VERSION_MAJOR" = "6" ]; then
     catDll libicuin
     catDll libpcre2-16-
     catDll libmd4c
+    catDll libb2-
+    catDll libdbus- # QtDBus
 else
     echo "Unsupported QT_MAJOR_VERSION" ${QT_VERSION_MAJOR}
     exit 1
 fi
 
 
-catDll fbclient
 catDll libass-
 catDll libbluray-
 catDll libboost_filesystem-mt
