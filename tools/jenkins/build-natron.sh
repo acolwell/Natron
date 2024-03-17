@@ -142,8 +142,8 @@ fi
 if [ "$NO_BUILD" != "1" ] && ([ "${SDK_VERSION:-}" = "CY2016" ] || [ "${SDK_VERSION:-}" = "CY2017" ]); then
     cat "$INC_PATH/natron/${SDK_VERSION}.pri" > config.pri
     rm -f Engine/NatronEngine/* Gui/NatronGui/*
-    shiboken --avoid-protected-hack --enable-pyside-extensions --include-paths="../Engine:../Global:${SDK_HOME}/include:${SDK_HOME}/include/PySide2"  --typesystem-paths="${SDK_HOME}/share/PySide2/typesystems" --output-directory=Engine Engine/Pyside_Engine_Python.h  Engine/typesystem_engine.xml
-    shiboken --avoid-protected-hack --enable-pyside-extensions --include-paths="../Engine:../Gui:../Global:${SDK_HOME}/include:${SDK_HOME}/include/PySide2"  --typesystem-paths="${SDK_HOME}/share/PySide2/typesystems:Engine" --output-directory=Gui Gui/Pyside_Gui_Python.h  Gui/typesystem_natronGui.xml
+    shiboken -std=c++20 --avoid-protected-hack --enable-pyside-extensions --include-paths="../Engine:../Global:${SDK_HOME}/include:${SDK_HOME}/include/PySide2"  --typesystem-paths="${SDK_HOME}/share/PySide2/typesystems" --output-directory=Engine Engine/Pyside_Engine_Python.h  Engine/typesystem_engine.xml
+    shiboken -std=c++20 --avoid-protected-hack --enable-pyside-extensions --include-paths="../Engine:../Gui:../Global:${SDK_HOME}/include:${SDK_HOME}/include/PySide2"  --typesystem-paths="${SDK_HOME}/share/PySide2/typesystems:Engine" --output-directory=Gui Gui/Pyside_Gui_Python.h  Gui/typesystem_natronGui.xml
     sh tools/utils/runPostShiboken.sh
 fi
 

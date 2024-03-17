@@ -4,12 +4,12 @@ set -e # Exit immediately if a command exits with a non-zero status
 set -u # Treat unset variables as an error when substituting.
 #set -x # Print commands and their arguments as they are executed.
 
-STD14="c++14"
+STD20="c++20"
 STD17="c++17"
 
 # https://stackoverflow.com/a/42232124
 if [ "$PKGOS" = "Windows" ]; then
-    STD14="gnu++14"
+    STD20="gnu++20"
     STD17="gnu++17"
 fi
 
@@ -203,7 +203,7 @@ fi
 
 COMPILER=${COMPILER:-gcc}
 CC=${CC:-gcc}
-CXX=${CXX:-g++ -std=${STD14}}
+CXX=${CXX:-g++ -std=${STD20}}
 CXX17=${CXX17:-g++ -std=${STD17}}
 OBJECTIVE_CC=${OBJECTIVE_CC:-${CC}}
 OBJECTIVE_CXX=${OBJECTIVE_CXX:-${CXX}}

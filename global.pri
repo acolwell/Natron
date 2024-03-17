@@ -17,7 +17,11 @@
 # along with Natron.  If not, see <http://www.gnu.org/licenses/gpl-2.0.html>
 # ***** END LICENSE BLOCK *****
 
-CONFIG += c++11 c++14
+CONFIG += c++11 c++20
+
+# Qt5 does not appear to recognize c++20 so we include c++2a as well. This copies how Qt6 handles c++20.
+# The line below can be removed once we've updated to Qt6.
+c++20: CONFIG += c++2a
 
 # libs may modify the config (eg openmp), so it must be included before
 include(libs.pri)
@@ -309,10 +313,10 @@ macx-clang-libc++ {
     QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=$$QMAKE_MACOSX_DEPLOYMENT_TARGET
     QMAKE_OBJECTIVE_CXXFLAGS += -stdlib=libc++ -mmacosx-version-min=$$QMAKE_MACOSX_DEPLOYMENT_TARGET
     c++11 {
-      c++14 {
-        QMAKE_OBJECTIVE_CXXFLAGS += -std=c++14
+      c++20 {
+        QMAKE_OBJECTIVE_CXXFLAGS += -std=c++20
       }
-      !c++14 {
+      !c++20 {
         QMAKE_OBJECTIVE_CXXFLAGS += -std=c++11
       }
     }
@@ -323,10 +327,10 @@ macx-clang {
     QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=$$QMAKE_MACOSX_DEPLOYMENT_TARGET
     QMAKE_OBJECTIVE_CXXFLAGS += -mmacosx-version-min=$$QMAKE_MACOSX_DEPLOYMENT_TARGET
     c++11 {
-      c++14 {
-        QMAKE_OBJECTIVE_CXXFLAGS += -std=c++14
+      c++20 {
+        QMAKE_OBJECTIVE_CXXFLAGS += -std=c++20
       }
-      !c++14 {
+      !c++20 {
         QMAKE_OBJECTIVE_CXXFLAGS += -std=c++11
       }
     }
@@ -528,13 +532,13 @@ unix {
   symbols_hidden_by_default.value = YES
   QMAKE_MAC_XCODE_SETTINGS += symbols_hidden_by_default
   c++11 {
-    c++14 {
-      QMAKE_CXXFLAGS += -std=c++14
-      enable_cxx14.name = CLANG_CXX_LANGUAGE_STANDARD
-      enable_cxx14.value = c++14
-      QMAKE_MAC_XCODE_SETTINGS += enable_cxx14
+    c++20 {
+      QMAKE_CXXFLAGS += -std=c++20
+      enable_cxx20.name = CLANG_CXX_LANGUAGE_STANDARD
+      enable_cxx20.value = c++20
+      QMAKE_MAC_XCODE_SETTINGS += enable_cxx20
     }
-    !c++14 {
+    !c++20 {
       QMAKE_CXXFLAGS += -std=c++11
       enable_cxx11.name = CLANG_CXX_LANGUAGE_STANDARD
       enable_cxx11.value = c++0x
@@ -547,10 +551,10 @@ unix {
   QMAKE_CXXFLAGS += -ftemplate-depth-1024
   QMAKE_CXXFLAGS_WARN_ON += -Wno-c++11-extensions
   c++11 {
-    c++14 {
-      QMAKE_CXXFLAGS += -std=c++14
+    c++20 {
+      QMAKE_CXXFLAGS += -std=c++20
     }
-    !c++14 {
+    !c++20 {
       QMAKE_CXXFLAGS += -std=c++11
     }
   }
