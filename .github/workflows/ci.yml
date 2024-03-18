@@ -51,7 +51,7 @@ jobs:
             qt5-qmake qtbase5-dev qtdeclarative5-dev \
             python3-dev libshiboken2-dev libpyside2-dev python3-pyside2.qtwidgets python3-qtpy \
             libwayland-dev libwayland-client0 libwayland-egl1 \
-            extra-cmake-modules clang
+            extra-cmake-modules clang-15
       - name: Install Macos system packages
         if: contains(matrix.os, 'macos')
         shell: bash
