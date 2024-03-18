@@ -59,6 +59,16 @@ jobs:
           brew install xctool python@2 boost giflib jpeg libpng libtiff libxml2 openssl pcre readline sqlite expat cairo \
             gnu-sed glew openssl ilmbase openexr freetype fontconfig ffmpeg openjpeg libraw libheif openvdb
 
+      - name: Show compiler info
+        run: |
+          g++ --version
+          g++ -E -x c++ - -v </dev/null
+          clang --version
+          clang-15 --version
+          llvm-config --version
+          llvm-config --includedir
+          llvm-config-15 --version
+          llvm-config-15 --includedir
       - name: Download OpenColorIO-Configs
         run: |
           wget https://github.com/NatronGitHub/OpenColorIO-Configs/archive/Natron-v${OCIO_CONFIG_VERSION}.tar.gz
