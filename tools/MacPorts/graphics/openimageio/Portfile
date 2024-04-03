@@ -29,7 +29,6 @@ patchfiles-append oiio-2.3.20-strnlen.patch
 patchfiles-append oiio-2.4.6-sysutil.patch
 patchfiles-append oiio-2.4.6-filesystem.patch
 
-patchfiles-append   patch-enforce-clang14.diff
 patchfiles-append   patch-2.4.5-cmake-disable-wall-werror.diff
 
 depends_lib-append  port:imath \
