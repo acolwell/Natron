@@ -94,6 +94,14 @@ int main(int argc, char *argv[])
             freopen("CONOUT$", "w", stderr);
         }
     }
+#if QT_VERSION < QT_VERSION_CHECK(6, 5, 0)
+    // Set proper window title bar color (https://www.qt.io/blog/dark-mode-on-windows-11-with-qt-6.5)
+    QSettings registry(QString::fromUtf8("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"),
+                       QSettings::NativeFormat);
+    if (registry.value(QString::fromUtf8("AppsUseLightTheme"), 0).toInt() == 0) {
+        qputenv("QT_QPA_PLATFORM", "windows:darkmode=1");
+    }
+#endif
 #endif
 
 #if defined(Q_OS_UNIX) && defined(RLIMIT_NOFILE)
