@@ -31,6 +31,12 @@ set(CMAKE_CXX_STANDARD 14)
 option(NATRON_SYSTEM_LIBS "use system versions of dependencies instead of bundled ones" OFF)
 option(NATRON_BUILD_TESTS "build the Natron test suite" ON)
 
+if(CMAKE_BUILD_TYPE MATCHES "^(debug|Debug|DEBUG)$")
+    add_definitions(-DDEBUG)
+else()
+    add_definitions(-DQT_NO_DEBUG_OUTPUT)
+endif()
+
 if(NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
     set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Choose the type of build." FORCE)
     message(STATUS "Setting build type to '${CMAKE_BUILD_TYPE}' as none was specified.")
