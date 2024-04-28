@@ -358,21 +358,10 @@ Gui::onDoDialog(int type,
             info.setWindowFlags(info.windowFlags() | Qt::WindowStaysOnTopHint);
             ignore_result( info.exec() );
         } else {
-            // text may be very long: use resizable QMessageBox
-            ResizableMessageBox info(QMessageBox::Information, title, msg.left(1000), QMessageBox::NoButton, this, Qt::Dialog | Qt::WindowStaysOnTopHint);
-            info.setTextFormat(Qt::RichText);
+            // text may be very long: use Natron MessageBox
+            StandardButtons buttons(eStandardButtonOk);
+            MessageBox info(title, msg, MessageBox::eMessageBoxTypeInformation, buttons, eStandardButtonOk, this);
             info.setWindowFlags(info.windowFlags() | Qt::WindowStaysOnTopHint);
-            QGridLayout *layout = qobject_cast<QGridLayout *>( info.layout() );
-            if (layout) {
-                QTextEdit *edit = new QTextEdit;
-                edit->setFocusPolicy(Qt::NoFocus);
-                edit->setReadOnly(true);
-                edit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-                edit->setAcceptRichText(true);
-                edit->setHtml(msg);
-                layout->setRowStretch(1, 0);
-                layout->addWidget(edit, 0, 1);
-            }
             ignore_result( info.exec() );
         }
     } else { // question dialog
