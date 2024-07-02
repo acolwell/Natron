@@ -120,7 +120,11 @@ MessageBox::init(const QString & title,
         _imp->infoEdit->setReadOnly(true);
         _imp->infoEdit->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
         _imp->infoEdit->setWordWrapMode(QTextOption::WordWrap);
-        _imp->infoEdit->setHtml(message);
+        if ( Qt::mightBeRichText(message) ) {
+            _imp->infoEdit->setHtml(message);
+        } else {
+            _imp->infoEdit->setPlainText(message);
+        }
         //QFont f(appFont,appFontSize);
         //_imp->infoEdit->setFont(f);
     }
