@@ -757,6 +757,8 @@ QPlainTextEdit {
     selection-background-color: %1;
 }
 
+QTextEdit[html],
+QTextEdit[plainText],
 QTextBrowser[html],
 QTextBrowser[plainText] {
     color: %5;

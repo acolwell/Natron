@@ -80,14 +80,11 @@ public Q_SLOTS:
 
 private:
 
-    void updateSize();
-
     void init(const QString & title,
               const QString & message,
               const StandardButtons& buttons,
               StandardButtonEnum defaultButton);
 
-    virtual bool event(QEvent* e) OVERRIDE FINAL;
     std::unique_ptr<MessageBoxPrivate> _imp;
 };
 
