@@ -28,8 +28,7 @@ depends=(
          "${MINGW_PACKAGE_PREFIX}-zlib"
          "${MINGW_PACKAGE_PREFIX}-freetype"
          "${MINGW_PACKAGE_PREFIX}-fontconfig"
-	 "${MINGW_PACKAGE_PREFIX}-lcms2"
-	 "${MINGW_PACKAGE_PREFIX}-libheif"
+         "${MINGW_PACKAGE_PREFIX}-lcms2"
         )
 options=('strip' '!debug' 'libtool')
 
@@ -103,7 +102,7 @@ build() {
     --with-png \
     --with-freetype \
     --with-fontconfig \
-    --with-heic \
+    --without-heic \
     --without-raqm \
     --without-raw \
     --without-zstd \
