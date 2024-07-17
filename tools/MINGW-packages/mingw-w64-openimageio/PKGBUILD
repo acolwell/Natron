@@ -28,6 +28,7 @@ depends=("${MINGW_PACKAGE_PREFIX}-boost"
          "${MINGW_PACKAGE_PREFIX}-libwebp"
          "${MINGW_PACKAGE_PREFIX}-natron_opencolorio-git"
          "${MINGW_PACKAGE_PREFIX}-natron_openexr"
+          "${MINGW_PACKAGE_PREFIX}-natron_libjxl"
          "${MINGW_PACKAGE_PREFIX}-openjpeg2"
          "${MINGW_PACKAGE_PREFIX}-zlib")
 makedepends=("${MINGW_PACKAGE_PREFIX}-cc"
