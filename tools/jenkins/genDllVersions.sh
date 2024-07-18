@@ -152,6 +152,7 @@ catDll libgraphite
 catDll libgsm
 catDll libharfbuzz-0
 catDll libhogweed-
+catDll libhwy
 catDll libiconv-
 catDll libicudt
 catDll libicuuc
@@ -162,6 +163,9 @@ catDll libImath-
 catDll libintl-
 catDll libjasper
 catDll libjpeg-
+catDll libjxl
+catDll libjxl_cms
+catDll libjxl_threads
 catDll liblcms2-
 catDll liblzma-
 catDll libmfx

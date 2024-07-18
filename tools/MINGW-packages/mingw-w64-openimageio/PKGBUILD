@@ -1,9 +1,10 @@
 # Maintainer: ole.andre.rodlie@gmail.com
 
 _realname=openimageio
+_realver=2.6.2.0-dev
 pkgbase=mingw-w64-natron_${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-natron_${_realname}"
-pkgver=2.5.13.1
+pkgver=${_realver//-/_}
 pkgrel=99.1
 pkgdesc="A library for reading and writing images, including classes, utilities, and applications (mingw-w64)"
 arch=('any')
@@ -37,13 +38,13 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cc"
              "${MINGW_PACKAGE_PREFIX}-fmt"
              "${MINGW_PACKAGE_PREFIX}-robin-map")
 options=('strip' 'buildflags' '!debug')
-source=(https://github.com/AcademySoftwareFoundation/OpenImageIO/archive/v${pkgver}/${_realname}-${pkgver}.tar.gz
+source=(https://github.com/AcademySoftwareFoundation/OpenImageIO/archive/v${_realver}/${_realname}-${_realver}.tar.gz
         0000-workaround-ansidecl-h-PTR-define-conflict.patch
         0001-Fix-building-on-mingw-w64-aarch64.patch
         oiio-2.0.8-invalidatespec.patch
         oiio-2.2.14-libraw.diff
        )
-sha256sums=('0fbaec6c15215e11cf4545128c4d64eaa97b461cb9b5fb8a76f9a7d35c99e3df'
+sha256sums=('626c2e1b99700606eac6b3581c05eb270d954b7d36d2a1fcdca00dbbdd41ec56'
             '9e4e21333676268a91c0f4e7676aeab7658e5f748e7e5cfe43a92f0fd7931229'
             '91bd9a6a07f448a6dd8d1ff9a1c8cefaedb8cdd77029b84b6fc02fe9a7cf71f0'
             'd9c2e066ce0e94404d31fd649341cc0ee03faf9b4023dfcdf5cf59fbbf466127'
@@ -60,7 +61,7 @@ apply_patch_with_msg() {
 }
 
 prepare() {
-  cd ${srcdir}/OpenImageIO-${pkgver}
+  cd ${srcdir}/OpenImageIO-${_realver}
   apply_patch_with_msg \
     0000-workaround-ansidecl-h-PTR-define-conflict.patch \
     0001-Fix-building-on-mingw-w64-aarch64.patch \
@@ -86,7 +87,7 @@ build() {
     -G"Ninja" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     -DCMAKE_DLL_NAME_WITH_SOVERSION=ON \
-    -DCMAKE_CXX_STANDARD=14 \
+    -DCMAKE_CXX_STANDARD=17 \
     -DUSE_FREETYPE=ON \
     -DUSE_OPENCV=OFF \
     -DUSE_OPENGL=OFF \
@@ -109,7 +110,7 @@ build() {
     -DUSE_PTEX=OFF \
     -DCMAKE_SHARED_LINKER_FLAGS=" -Wl,--export-all-symbols -Wl,--enable-auto-import " \
     ${extra_config} \
-    ../OpenImageIO-${pkgver}
+    ../OpenImageIO-${_realver}
 
   ${MINGW_PREFIX}/bin/cmake --build .
 }
@@ -130,5 +131,5 @@ package() {
     sed -e "s|${MINGW_PREFIX}|\$\{_IMPORT_PREFIX\}|g" -i ${_f}
   done
 
-  install -Dm644 ${srcdir}/OpenImageIO-${pkgver}/LICENSE.md "${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}/LICENSE.md"
+  install -Dm644 ${srcdir}/OpenImageIO-${_realver}/LICENSE.md "${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}/LICENSE.md"
 }
