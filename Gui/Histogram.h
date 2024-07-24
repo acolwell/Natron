@@ -65,8 +65,7 @@ public:
         eDisplayModeB
     };
 
-    Histogram(Gui* gui,
-              const QOpenGLWidget* shareWidget = NULL);
+    Histogram(Gui* gui);
 
     virtual ~Histogram();
 

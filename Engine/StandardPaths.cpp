@@ -110,7 +110,7 @@ load(const wchar_t *libraryName,
         // This code is windows-only anyway, but this is here for consistency with other parts of the source
         const QChar pathSep = QChar::fromLatin1(':');
 #     endif
-        searchOrder << PATH.split(pathSep, QString::SkipEmptyParts);
+        searchOrder << PATH.split(pathSep, Qt::SkipEmptyParts);
     }
     QString fileName = QString::fromWCharArray(libraryName);
     fileName.append( QLatin1String(".dll") );
@@ -154,12 +154,6 @@ resolveGetSpecialFolderPath()
     }
 
     return gsfp;
-}
-
-static QString
-convertCharArray(const wchar_t *path)
-{
-    return QDir::fromNativeSeparators( QString::fromWCharArray(path) );
 }
 
 #elif defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)

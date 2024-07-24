@@ -200,6 +200,7 @@ struct Matrix3x3
                                     const Point3D &q1);
 };
 
+
 double matDeterminant(const Matrix3x3& M);
 
 Matrix3x3 matScaleAdjoint(const Matrix3x3& M, double s);
@@ -208,13 +209,8 @@ Matrix3x3 matInverse(const Matrix3x3& M);
 Matrix3x3 matInverse(const Matrix3x3& M, double det);
 
 Matrix3x3 matRotation(double rads);
-// Matrix3x3 matRotationAroundPoint(double rads, double pointX, double pointY);
-
-// Matrix3x3 matTranslation(double translateX, double translateY);
 
 Matrix3x3 matScale(double scaleX, double scaleY);
-// Matrix3x3 matScale(double scale);
-// Matrix3x3 matScaleAroundPoint(double scaleX, double scaleY, double pointX, double pointY);
 
 Matrix3x3 matSkewXY(double skewX, double skewY, bool skewOrderYX);
 
@@ -235,38 +231,12 @@ Matrix3x3 matCanonicalToPixel(double pixelaspectratio, //!< 1.067 for PAL, where
                               double renderscaleY,
                               bool fielded);   //!< true if the image property kOfxImagePropField is kOfxImageFieldLower or kOfxImageFieldUpper (apply 0.5field scale in Y
 
-// matrix transform from destination to source, in pixel coordinates
-//Matrix3x3 matInverseTransformPixel(double pixelaspectratio, //!< 1.067 for PAL, where 720x576 pixels occupy 768x576 in canonical coords
-//                                              double renderscaleX, //!< 0.5 for a half-resolution image
-//                                              double renderscaleY,
-//                                              bool fielded,
-//                                              double translateX, double translateY,
-//                                              double scaleX, double scaleY,
-//                                              double skewX,
-//                                              double skewY,
-//                                              bool skewOrderYX,
-//                                              double rads,
-//                                              double centerX, double centerY);
-
-// matrix transform from source to destination in pixel coordinates
-//Matrix3x3 matTransformPixel(double pixelaspectratio, //!< 1.067 for PAL, where 720x576 pixels occupy 768x576 in canonical coords
-//                                       double renderscaleX, //!< 0.5 for a half-resolution image
-//                                       double renderscaleY,
-//                                       bool fielded,
-//                                       double translateX, double translateY,
-//                                       double scaleX, double scaleY,
-//                                       double skewX,
-//                                       double skewY,
-//                                       bool skewOrderYX,
-//                                       double rads,
-//                                       double centerX, double centerY);
-
-
 Matrix3x3 matMul(const Matrix3x3 & m1, const Matrix3x3 & m2);
 
 Point3D matApply(const Matrix3x3 & m, const Point3D & p);
 
 void matApply(const Matrix3x3 & m, double* x, double *y, double *z);
+
 
 struct Matrix4x4
 {
@@ -289,7 +259,6 @@ Point4D matApply(const Matrix4x4 & m, const Point4D & p);
 // compute the bounding box of the transform of a rectangle
 void transformRegionFromRoD(const RectD &srcRect, const Matrix3x3 &transform, RectD &dstRect);
 
-// Matrix4x4 matrix4x4FromMatrix3x3(const Matrix3x3& m);
 } // namespace Transform
 NATRON_NAMESPACE_EXIT
 

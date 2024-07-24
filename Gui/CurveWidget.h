@@ -71,8 +71,7 @@ public:
     CurveWidget(Gui* gui,
                 CurveSelection* selection,
                 TimeLinePtr timeline = TimeLinePtr(),
-                QWidget* parent = NULL,
-                const QOpenGLWidget* shareWidget = NULL);
+                QWidget* parent = NULL);
 
     virtual ~CurveWidget() OVERRIDE;
 

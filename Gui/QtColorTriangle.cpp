@@ -215,7 +215,7 @@ void QtColorTriangle::genBackground()
     // Create an image of the same size as the contents rect.
     bg = QImage(contentsRect().size(), QImage::Format_RGB32);
     QPainter p(&bg);
-    p.setRenderHint(QPainter::HighQualityAntialiasing);
+    p.setRenderHint(QPainter::Antialiasing);
     p.fillRect(bg.rect(), palette().mid());
 
     QConicalGradient gradient(bg.rect().center(), 90);
@@ -913,7 +913,7 @@ inline double vprod(double x1, double y1, double x2, double y2)
 Returns true if the point cos(p),sin(p) is on the arc between
     cos(a1),sin(a1) and cos(a2),sin(a2); otherwise returns false.
 */
-bool angleBetweenAngles(double p, double a1, double a2)
+static bool angleBetweenAngles(double p, double a1, double a2)
 {
     if (a1 > a2) {
 	a2 += TWOPI;

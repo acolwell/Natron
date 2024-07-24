@@ -105,6 +105,7 @@ OSGLContext_win::initWGLData(OSGLContext_wgl_data* wglInfo)
         throw std::runtime_error("WGL: Failed to load opengl32.dll");
     }
 
+GCC_DIAG_OFF(cast-function-type)
     wglInfo->CreateContext = (WGLCREATECONTEXT_T)GetProcAddress(wglInfo->instance, "wglCreateContext");
     wglInfo->DeleteContext = (WGLDELETECONTEXT_T)GetProcAddress(wglInfo->instance, "wglDeleteContext");
     wglInfo->GetCurrentContext = (WGLGETCURRENTCONTEXT_T)GetProcAddress(wglInfo->instance, "wglGetCurrentContext");
@@ -112,6 +113,7 @@ OSGLContext_win::initWGLData(OSGLContext_wgl_data* wglInfo)
     wglInfo->GetProcAddress = (WGLGETPROCADDRESS_T)GetProcAddress(wglInfo->instance, "wglGetProcAddress");
     wglInfo->MakeCurrent = (WGLMAKECURRENT_T)GetProcAddress(wglInfo->instance, "wglMakeCurrent");
     wglInfo->ShareLists = (WGLSHARELISTS_T)GetProcAddress(wglInfo->instance, "wglShareLists");
+GCC_DIAG_ON(cast-function-type)
 
     WNDCLASSEXW wc;
 
@@ -136,6 +138,8 @@ OSGLContext_win::loadWGLExtensions(OSGLContext_wgl_data* wglInfo)
     }
     // Functions for WGL_EXT_extension_string
     // NOTE: These are needed by extensionSupported
+
+GCC_DIAG_OFF(cast-function-type)
     wglInfo->GetExtensionsStringEXT = (PFNWGLGETEXTENSIONSSTRINGEXTPROC)wglInfo->GetProcAddress("wglGetExtensionsStringEXT");
     wglInfo->GetExtensionsStringARB = (PFNWGLGETEXTENSIONSSTRINGARBPROC)wglInfo->GetProcAddress("wglGetExtensionsStringARB");
 
@@ -147,6 +151,7 @@ OSGLContext_win::loadWGLExtensions(OSGLContext_wgl_data* wglInfo)
 
     // Functions for WGL_ARB_pixel_format
     wglInfo->GetPixelFormatAttribivARB = (PFNWGLGETPIXELFORMATATTRIBIVARBPROC)wglInfo->GetProcAddress("wglGetPixelFormatAttribivARB");
+GCC_DIAG_ON(cast-function-type)
 
     // This needs to include every extension used below except for
     // WGL_ARB_extensions_string and WGL_EXT_extensions_string
@@ -163,6 +168,7 @@ OSGLContext_win::loadWGLExtensions(OSGLContext_wgl_data* wglInfo)
     wglInfo->NV_gpu_affinity = extensionSupported("WGL_NV_gpu_affinity", wglInfo);
     wglInfo->AMD_gpu_association = extensionSupported("WGL_AMD_gpu_association", wglInfo);
 
+GCC_DIAG_OFF(cast-function-type)
     if (wglInfo->NV_gpu_affinity) {
         wglInfo->EnumGpusNV = (PFNWGLENUMGPUSNV)wglInfo->GetProcAddress("wglEnumGpusNV");
         wglInfo->EnumGpuDevicesNV = (PFNWGLENUMGPUDEVICESNV)wglInfo->GetProcAddress("wglEnumGpuDevicesNV");
@@ -182,6 +188,7 @@ OSGLContext_win::loadWGLExtensions(OSGLContext_wgl_data* wglInfo)
         wglInfo->GetCurrentAssociatedContextAMD = (PFNWGLGETCURRENTASSOCIATEDCONTEXTAMD)wglInfo->GetProcAddress("wglGetCurrentAssociatedContextAMD");
         wglInfo->BlitContextFrameBufferAMD = (PFNWGLBLITCONTEXTFRAMEBUFFERAMD)wglInfo->GetProcAddress("wglBlitContextFramebufferAMD");
     }
+GCC_DIAG_ON(cast-function-type)
 
     wglInfo->extensionsLoaded = GL_TRUE;
 

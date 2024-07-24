@@ -1753,8 +1753,6 @@ public:
     {
     }
 
-    void createTransformFromSelection(const std::list<Node*> & selection, bool linked, ExportTransformTypeEnum type);
-
     void createCornerPinFromSelection(const std::list<Node*> & selection, bool linked, bool useTransformRefFrame, bool invert);
 
     bool getTrackInstancesForButton(std::vector<KnobButton*>* trackButtons, const std::string& buttonName);
@@ -1796,22 +1794,12 @@ TrackerPanelV1::appendExtraGui(QVBoxLayout* layout)
                                                                  "reference frame specified in the transform tab.") + QString::fromUtf8("</p>") +
                                    QString::fromUtf8("<p><b>") + tr("CornerPinOFX (Stabilize):") + QString::fromUtf8("</p></b>") +
                                    QString::fromUtf8("<p>") + tr("Transform the image so that the tracked points do not move.") + QString::fromUtf8("</p>")
-//                                      "<p><b>" + tr("Transform (Stabilize):</p></b>"
-//                                      "<p>" + tr("Transform the image so that the tracked points do not move.") + "</p>"
-//                                      "<p><b>" + tr("Transform (Match-move):</p></b>"
-//                                      "<p>" + tr("Transform another image so that it moves to match the tracked points.") + "</p>"
-//                                      "<p>" + tr("The linked versions keep a link between the new node and the track, the others just copy"
-//                                      " the values.") + "</p>"
                                    );
     std::vector<std::string> choices;
     std::vector<std::string> helps;
 
     choices.push_back( tr("CornerPin (Use current frame. Linked)").toStdString() );
     helps.push_back( tr("Warp the image according to the relative transform using the current frame as reference.").toStdString() );
-    //
-    //    choices.push_back(tr("CornerPinOFX (Use transform ref frame. Linked)").toStdString());
-    //    helps.push_back(tr("Warp the image according to the relative transform using the "
-    //                       "reference frame specified in the transform tab.").toStdString());
 
     choices.push_back( tr("CornerPin (Stabilize. Linked)").toStdString() );
     helps.push_back( tr("Transform the image so that the tracked points do not move.").toStdString() );
@@ -1828,20 +1816,6 @@ TrackerPanelV1::appendExtraGui(QVBoxLayout* layout)
     helps.push_back( tr("Same as the linked version except that it copies values instead of "
                         "referencing them via a link to the track").toStdString() );
 
-
-    //    choices.push_back(tr("Transform (Stabilize. Linked)").toStdString());
-    //    helps.push_back(tr("Transform the image so that the tracked points do not move.").toStdString());
-    //
-    //    choices.push_back(tr("Transform (Match-move. Linked)").toStdString());
-    //    helps.push_back(tr("Transform another image so that it moves to match the tracked points.").toStdString());
-    //
-    //    choices.push_back(tr("Transform (Stabilize. Copy)").toStdString());
-    //    helps.push_back(tr("Same as the linked version except that it copies values instead of "
-    //                       "referencing them via a link to the track").toStdString());
-    //
-    //    choices.push_back(tr("Transform (Match-move. Copy)").toStdString());
-    //    helps.push_back(tr("Same as the linked version except that it copies values instead of "
-    //                       "referencing them via a link to the track").toStdString());
     for (U32 i = 0; i < choices.size(); ++i) {
         _imp->exportChoice->addItem( QString::fromUtf8( choices[i].c_str() ), QIcon(), QKeySequence(), QString::fromUtf8( helps[i].c_str() ) );
     }
@@ -2068,24 +2042,6 @@ TrackerPanelV1::trackBackward(ViewerInstance* /*viewer*/)
     Dialogs::errorDialog( tr("Tracker").toStdString(), tr("TrackerPM is now depecrated and can only be used to retrieve animation tracked from older projects, please use the Tracker node from now on.").toStdString() );
 
     return false;
-#if 0
-    assert( QThread::currentThread() == qApp->thread() );
-
-
-    std::vector<KnobButton*> instanceButtons;
-    if ( !_imp->getTrackInstancesForButton(&instanceButtons, kNatronParamTrackingPrevious) ) {
-        return false;
-    }
-
-    double leftBound, rightBound;
-    getApp()->getFrameRange(&leftBound, &rightBound);
-    int end = leftBound - 1;
-    int start = getApp()->getTimeLine()->currentFrame();
-
-    _imp->scheduler.track( TrackArgsV1(start, end, -1, getApp()->getTimeLine(), viewer, instanceButtons) );
-
-    return true;
-#endif
 } // trackBackward
 
 bool
@@ -2094,25 +2050,6 @@ TrackerPanelV1::trackForward(ViewerInstance* /*viewer*/)
     Dialogs::errorDialog( tr("Tracker").toStdString(), tr("TrackerPM is now depecrated and can only be used to retrieve animation tracked from older projects, please use the Tracker node from now on.").toStdString() );
 
     return false;
-#if 0
-    assert( QThread::currentThread() == qApp->thread() );
-
-
-    std::vector<KnobButton*> instanceButtons;
-    if ( !_imp->getTrackInstancesForButton(&instanceButtons, kNatronParamTrackingNext) ) {
-        return false;
-    }
-
-    double leftBound, rightBound;
-    getApp()->getFrameRange(&leftBound, &rightBound);
-    TimeLinePtr timeline = getApp()->getTimeLine();
-    int end = rightBound + 1;
-    int start = timeline->currentFrame();
-
-    _imp->scheduler.track( TrackArgsV1(start, end, 1, getApp()->getTimeLine(), viewer, instanceButtons) );
-
-    return true;
-#endif
 } // trackForward
 
 void
@@ -2133,28 +2070,6 @@ TrackerPanelV1::trackPrevious(ViewerInstance* /*viewer*/)
     Dialogs::errorDialog( tr("Tracker").toStdString(), tr("TrackerPM is now depecrated and can only be used to retrieve animation tracked from older projects, please use the Tracker node from now on.").toStdString() );
 
     return false;
-#if 0
-    std::list<Node*> selectedInstances;
-
-    getSelectedInstances(&selectedInstances);
-    if ( selectedInstances.empty() ) {
-        Dialogs::warningDialog( tr("Tracker").toStdString(), tr("You must select something to track first").toStdString() );
-
-        return false;
-    }
-    std::vector<KnobButton*> instanceButtons;
-    if ( !_imp->getTrackInstancesForButton(&instanceButtons, kNatronParamTrackingPrevious) ) {
-        return false;
-    }
-
-    TimeLinePtr timeline = getApp()->getTimeLine();
-    int start = timeline->currentFrame();
-    int end = start - 1;
-
-    _imp->scheduler.track( TrackArgsV1(start, end, -1, getApp()->getTimeLine(), viewer, instanceButtons) );
-
-    return true;
-#endif
 }
 
 bool
@@ -2163,28 +2078,6 @@ TrackerPanelV1::trackNext(ViewerInstance* /*viewer*/)
     Dialogs::errorDialog( tr("Tracker").toStdString(), tr("TrackerPM is now depecrated and can only be used to retrieve animation tracked from older projects, please use the Tracker node from now on.").toStdString() );
 
     return false;
-#if 0
-    std::list<Node*> selectedInstances;
-
-    getSelectedInstances(&selectedInstances);
-    if ( selectedInstances.empty() ) {
-        Dialogs::warningDialog( tr("Tracker").toStdString(), tr("You must select something to track first").toStdString() );
-
-        return false;
-    }
-    std::vector<KnobButton*> instanceButtons;
-    if ( !_imp->getTrackInstancesForButton(&instanceButtons, kNatronParamTrackingNext) ) {
-        return false;
-    }
-
-    TimeLinePtr timeline = getApp()->getTimeLine();
-    int start = timeline->currentFrame();
-    int end = start + 1;
-
-    _imp->scheduler.track( TrackArgsV1(start, end, 1, getApp()->getTimeLine(), viewer, instanceButtons) );
-
-    return true;
-#endif
 }
 
 void
@@ -2244,35 +2137,6 @@ TrackerPanelV1::onExportButtonClicked()
     std::list<Node*> selection;
 
     getSelectedInstances(&selection);
-    ///This is the full list, decomment when everything will be possible to do
-    //    switch (index) {
-    //        case 0:
-    //            _imp->createCornerPinFromSelection(selection, true, false);
-    //            break;
-    //        case 1:
-    //            _imp->createCornerPinFromSelection(selection, true, true);
-    //            break;
-    //        case 2:
-    //            _imp->createCornerPinFromSelection(selection, false, false);
-    //            break;
-    //        case 3:
-    //            _imp->createCornerPinFromSelection(selection, false, true);
-    //            break;
-    //        case 4:
-    //            _imp->createTransformFromSelection(selection, true, eExportTransformTypeStabilize);
-    //            break;
-    //        case 5:
-    //            _imp->createTransformFromSelection(selection, true, eExportTransformTypeMatchMove);
-    //            break;
-    //        case 6:
-    //            _imp->createTransformFromSelection(selection, false, eExportTransformTypeStabilize);
-    //            break;
-    //        case 7:
-    //            _imp->createTransformFromSelection(selection, false, eExportTransformTypeMatchMove);
-    //            break;
-    //        default:
-    //            break;
-    //    }
     switch (index) {
     case 0:
         _imp->createCornerPinFromSelection(selection, true, false, false);
@@ -2293,13 +2157,6 @@ TrackerPanelV1::onExportButtonClicked()
         break;
     }
 } // TrackerPanelV1::onExportButtonClicked
-
-void
-TrackerPanelPrivateV1::createTransformFromSelection(const std::list<Node*> & /*selection*/,
-                                                    bool /*linked*/,
-                                                    ExportTransformTypeEnum /*type*/)
-{
-}
 
 namespace  {
 KnobDoublePtr

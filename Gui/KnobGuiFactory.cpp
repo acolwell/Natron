@@ -76,14 +76,12 @@ template<typename K, typename KG>
 static std::pair<std::string, LibraryBinary *>
 knobGuiFactoryEntry()
 {
-    std::string stub;
-    std::unique_ptr<KnobHelper> knob( K::BuildKnob(NULL, stub, 1) );
     std::map<std::string, void (*)()> functions;
 
     functions.insert( make_pair("BuildKnobGui", ( void (*)() ) & KG::BuildKnobGui) );
     LibraryBinary *knobPlugin = new LibraryBinary(functions);
 
-    return make_pair(knob->typeName(), knobPlugin);
+    return make_pair(K::typeNameStatic(), knobPlugin);
 }
 
 void

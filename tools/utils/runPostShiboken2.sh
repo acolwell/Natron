@@ -61,6 +61,7 @@ GCC_DIAG_OFF(unused-parameter)\
 GCC_DIAG_OFF(missing-field-initializers)\
 GCC_DIAG_OFF(missing-declarations)\
 GCC_DIAG_OFF(uninitialized)\
+GCC_DIAG_OFF(cast-function-type) \
 GCC_DIAG_UNUSED_LOCAL_TYPEDEFS_OFF\
 // clang-format on\
 #include <pysidesignal.h>\

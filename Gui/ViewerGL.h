@@ -61,14 +61,7 @@ GCC_DIAG_SUGGEST_OVERRIDE_ON
 
 public:
 
-
-    /*3 different constructors, that all take a different parameter related to OpenGL or Qt widget parenting.
-       When constructing a viewer for the 1st time in the app, you must pass a NULL shareWidget. Otherwise,you
-       can pass a pointer to the 1st viewer you created. It allows the viewers to share the same OpenGL context.
-     */
-    explicit ViewerGL(ViewerTab* parent,
-                      const QOpenGLWidget* shareWidget = NULL);
-
+    explicit ViewerGL(ViewerTab* parent);
 
     virtual ~ViewerGL() OVERRIDE;
 

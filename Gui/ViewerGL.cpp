@@ -112,8 +112,7 @@ GCC_DIAG_UNUSED_PRIVATE_FIELD_ON
 NATRON_NAMESPACE_ENTER
 
 
-ViewerGL::ViewerGL(ViewerTab* parent,
-                   const QOpenGLWidget* shareWidget)
+ViewerGL::ViewerGL(ViewerTab* parent)
     : QOpenGLWidget(parent)
     , _imp( new Implementation(this, parent) )
 {

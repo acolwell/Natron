@@ -111,8 +111,7 @@ CurveWidget::getUndoStack() const
 CurveWidget::CurveWidget(Gui* gui,
                          CurveSelection* selection,
                          TimeLinePtr timeline,
-                         QWidget* parent,
-                         const QOpenGLWidget* shareWidget)
+                         QWidget* parent)
     : QOpenGLWidget(parent)
     , _imp( new CurveWidgetPrivate(gui, selection, timeline, this) )
 {

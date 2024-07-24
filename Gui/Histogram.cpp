@@ -282,8 +282,7 @@ public:
     std::vector<double> viewerPickerColor;
 };
 
-Histogram::Histogram(Gui* gui,
-                     const QOpenGLWidget* shareWidget)
+Histogram::Histogram(Gui* gui)
     : QOpenGLWidget(gui)
     , PanelWidget(this, gui)
     , _imp( new HistogramPrivate(this) )
