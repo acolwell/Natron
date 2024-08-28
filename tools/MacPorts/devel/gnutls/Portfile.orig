@@ -36,12 +36,16 @@ subport ${name} {
 subport ${name}-devel {
     conflicts   ${name}
     
-    version     3.8.6
+    version     3.8.7.1
     revision    0
 
-    checksums   rmd160  fa7d5faf5359e6de786eacb369b8c4077b15fd99 \
-                sha256  2e1588aae53cb32d43937f1f4eca28febd9c0c7aa1734fc5dd61a7e81e0ebcdd \
-                size    6517476
+    checksums   rmd160  c8df6a44fe967c394ef6264f01817209f2e861f2 \
+                sha256  9ca0ddaccce28a74fa18d738744190afb3b0daebef74e6ad686bf7bef99abd60 \
+                size    6695404
+
+   depends_lib-append \
+                port:brotli \
+                port:zstd
 
     patchfiles  patch-lib-system-certs.c.diff
 }
@@ -89,11 +93,9 @@ post-patch {
     reinplace {/^#/d} {*}[glob ${worksrcpath}/lib/accelerated/x86/macosx/*.s]
 }
 
-# Note: configure script detects zstd, but flags it as missing anyway
 configure.args-append \
                 --disable-dependency-tracking \
                 --disable-doc \
-                --disable-guile \
                 --disable-heartbeat-support \
                 --disable-libdane \
                 --disable-silent-rules \
@@ -103,9 +105,31 @@ configure.args-append \
                 --with-p11-kit \
                 --with-system-priority-file="${prefix}/etc/gnutls/default-priorities" \
                 --with-default-trust-store-pkcs11=pkcs11: \
-                --without-brotli \
-                --without-zstd \
                 ac_cv_prog_AWK=/usr/bin/awk
+
+subport ${name} {
+    # Note: configure script detects zstd, but flags it as missing anyway
+    # the guile variant is only available for gnutls
+    configure.args-append \
+                --without-brotli \
+                --disable-guile \
+                --without-zstd \
+
+    variant brotli description {Build brotli support} {
+        depends_lib-append \
+                port:brotli
+
+        configure.args-delete \
+                --without-brotli
+    }
+
+    variant guile description {Build guile bindings} {
+    # there currently is a build issue with the guile variant
+    # the workaround is to first install guile w/o guile and then with +guile
+        depends_lib-append      port:guile
+        configure.args-replace  --disable-guile --enable-guile
+    }
+}
 
 # https://trac.macports.org/wiki/WimplicitFunctionDeclaration#strchr
 configure.checks.implicit_function_declaration.whitelist-append strchr
@@ -124,14 +148,6 @@ if {${os.platform} eq "darwin" && ${os.major} < 10 && [string match *clang* ${co
 platform darwin 8 {
     depends_build-append    port:texinfo
     configure.cppflags-append -D__WORDSIZE=32
-}
-
-variant brotli description {Build brotli support} {
-    depends_lib-append \
-            port:brotli
-
-    configure.args-delete \
-            --without-brotli
 }
 
 variant dane description {Build libdane using unbound libraries} {
@@ -162,13 +178,6 @@ if {[variant_isset dane] && ![file exists ${prefix}/var/run/unbound/root.key]} {
 *** to generate or update it.
 ***
 "
-}
-
-variant guile description {Build guile bindings} {
-# there currently is a build issue with the guile variant
-# the workaround is to first install guile w/o guile and then with +guile
-    depends_lib-append      port:guile
-    configure.args-replace  --disable-guile --enable-guile
 }
 
 if {${universal_possible} && [variant_isset universal]} {
