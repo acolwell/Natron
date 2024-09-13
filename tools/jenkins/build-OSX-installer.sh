@@ -430,9 +430,9 @@ if otool -L "${natron_binary}" | grep -F -q "@rpath/libc++"; then
     fi
 fi
 if [ "${COPY_LIBCXX}" = 1 ]; then
-    echo "* Will copy lib++ from ${COPY_LIBCXX_FROM}"
+    echo "* Will copy libc++ from ${COPY_LIBCXX_FROM}"
 else
-    echo "* Will not copy lib++"
+    echo "* Will not copy libc++"
 fi
 
 if [ -f "${pkglib}/libc++.1.dylib" ] || [ -f "${pkglib}/libc++abi.1.dylib" ]; then
@@ -724,21 +724,33 @@ popd
 
 #############################################################################
 # Other binaries
-echo "*** Fixing sonames in other binaries and dynamic libraries..."
+echo "*** Fixing sonames in binaries and dynamic libraries..."
 pushd "${package}/Contents"
 # We also check dynamic libraries, because we've seen issues, e.g. with libavdevice.*.dylib, which is a dependency of ffmpeg and ffprobe
-bins=( "${otherbins[@]/#/MacOS/}" )
+bins=( "${natronbins[@]/#/MacOS/}" "${otherbins[@]/#/MacOS/}" )
 while [ ${#bins[@]} -gt 0 ]; do
     more_bins=( )
-    for bin in "${bins[@]}"; do
+    for binary in "${bins[@]}"; do
+        if [ ! -e "${binary}" ]; then
+            continue
+        fi
+        # Fix Qt libs
+        for f in "${qt_libs[@]}"; do
+            install_name_tool -change "${qt_frameworks_dir}/${f}.framework/Versions/${QT_VERSION_MAJOR}/${f}" "@executable_path/../Frameworks/${f}.framework/Versions/${QT_VERSION_MAJOR}/${f}" "${binary}"
+        done
+        for l in  pyside${pypart}.${SBKVER} shiboken${pypart}.${SBKVER}; do
+            dylib="lib${l}.dylib"
+            install_name_tool -change "${SDK_HOME}/lib/${dylib}" "@executable_path/../Frameworks/${dylib}" "${binary}"
+        done
+
         # fix macports libs
-        MPLIBS0="$(otool -L "${bin}" | grep -F "${SDK_HOME}/lib" | grep -F -v ':' |sort|uniq |awk '{print $1}')"
+        MPLIBS0="$(otool -L "${binary}" | grep -F "${SDK_HOME}/lib" | grep -F -v ':' |sort|uniq |awk '{print $1}')"
         # also add first-level and second-level dependencies 
         MPLIBS1="$(for i in ${MPLIBS0}; do echo "$i"; otool -L "$i" | grep -F "${SDK_HOME}/lib" | grep -F -v ':'; done |sort|uniq |awk '{print $1}')"
         MPLIBS="$(for i in ${MPLIBS1}; do echo "$i"; otool -L "$i" | grep -F "${SDK_HOME}/lib" | grep -F -v ':'; done |sort|uniq |awk '{print $1}')"
         for mplib in ${MPLIBS}; do
             if [ ! -f "${mplib}" ]; then
-                echo "Error: missing ${bin} depend ${mplib}"
+                echo "Error: missing ${binary} depend ${mplib}"
                 exit 1
             fi
             lib="$(echo "${mplib}" | awk -F / '{print $NF}')"
@@ -753,30 +765,30 @@ while [ ${#bins[@]} -gt 0 ]; do
                 install_name_tool -id "@executable_path/../Frameworks/${lib}" "${pkglib}/${lib}"
                 more_bins+=( "${pkglib}/${lib}" )
             fi
-            install_name_tool -change "${mplib}" "@executable_path/../Frameworks/${lib}" "${bin}"
+            install_name_tool -change "${mplib}" "@executable_path/../Frameworks/${lib}" "${binary}"
         done
         # Fix rpath
-        if [ ! -x "${bin}" ]; then
+        if [ ! -x "${binary}" ]; then
             continue
         fi
         if [ "${LIBGCC}" = "1" ]; then
             for l in ${gcclibs}; do
                 lib="lib${l}.dylib"
-                install_name_tool -change "${SDK_HOME}/lib/libgcc/${lib}" "@executable_path/../Frameworks/${lib}" "${bin}" || true
+                install_name_tool -change "${SDK_HOME}/lib/libgcc/${lib}" "@executable_path/../Frameworks/${lib}" "${binary}" || true
             done
         fi
         if [ "${COMPILER}" = "clang-omp" ]; then
             for l in ${omplibs}; do
                 lib="lib${l}.dylib"
-                install_name_tool -change "${SDK_HOME}/lib/libomp/${lib}" "@executable_path/../Frameworks/${lib}" "${bin}" || true
+                install_name_tool -change "${SDK_HOME}/lib/libomp/${lib}" "@executable_path/../Frameworks/${lib}" "${binary}" || true
             done
         fi
         for f in Python; do
-            install_name_tool -change "${SDK_HOME}/Library/Frameworks/${f}.framework/Versions/${PYVER}/${f}" "@executable_path/../Frameworks/${f}.framework/Versions/${PYVER}/${f}" "${bin}" || true
+            install_name_tool -change "${SDK_HOME}/Library/Frameworks/${f}.framework/Versions/${PYVER}/${f}" "@executable_path/../Frameworks/${f}.framework/Versions/${PYVER}/${f}" "${binary}" || true
         done
         
-        install_name_tool -rpath "${SDK_HOME}/Library/Frameworks/${PYSHIBOKEN}" "@executable_path/../Frameworks/${PYSHIBOKEN}" "${bin}" || true
-        install_name_tool -rpath "${SDK_HOME}/Library/Frameworks/${PYSIDE}" "@executable_path/../Frameworks/${PYSIDE}" "${bin}" || true
+        install_name_tool -rpath "${SDK_HOME}/Library/Frameworks/${PYSHIBOKEN}" "@executable_path/../Frameworks/${PYSHIBOKEN}" "${binary}" || true
+        install_name_tool -rpath "${SDK_HOME}/Library/Frameworks/${PYSIDE}" "@executable_path/../Frameworks/${PYSIDE}" "${binary}" || true
     done
     if [ ${#more_bins[@]} -gt 0 ]; then
         bins=( "${more_bins[@]}" )
