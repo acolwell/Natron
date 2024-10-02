@@ -1,8 +1,16 @@
 name: Build Installer
 
 on:
-  workflow_dispatch: {}
-  push:
+  workflow_dispatch:
+    inputs:
+      push_to_nightly_release:
+        required: true
+        type: boolean
+        default: false
+  push: {}
+
+  schedule:
+    - cron:  '0 12 * * *'
 
 env:
   NATRON_BUILD_WORKSPACE: 'D:/nbw'
@@ -15,6 +23,9 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
+
+    outputs:
+      win_installer_artifact: ${{ steps.build.outputs.INSTALLER_NAME }}
 
     steps:
       - name: Checkout branch
@@ -119,6 +130,10 @@ jobs:
       run:
         shell: msys2 {0}
 
+    outputs:
+      win_installer_breakpad_artifact: ${{ steps.build.outputs.INSTALLER_NAME }}
+      win_installer_breakpad_symbols_artifact: ${{ steps.build.outputs.SYMBOLS_NAME }}
+
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4.1.1
@@ -199,3 +214,38 @@ jobs:
             echo "Testing $(basename ${x}) ..."
             PATH=${INSTALLER_DIR}/bin ./verify_plugin_loads.exe "${x}"
           done
+
+  update-nightly-release:
+    name: "Update Nightly Release"
+    runs-on: "ubuntu-latest"
+    needs: [win-installer, win-installer-breakpad]
+    permissions:
+      contents: write
+    if: (github.event.schedule != '' && github.ref_name == 'AJC-RB-2.5') || ${{ inputs.push_to_nightly_release }}
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Display structure of downloaded files
+        run: ls -R artifacts
+
+      - name: Zip artifacts
+        run: |
+          cd artifacts
+          (cd ${{ needs.win-installer.outputs.win_installer_artifact }}; zip -r ../${{ needs.win-installer.outputs.win_installer_artifact }}.zip *)
+          (cd ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_artifact }}; zip -r ../${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_artifact }}.zip *)
+          (cd ${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_symbols_artifact }}; zip -r ../${{ needs.win-installer-breakpad.outputs.win_installer_breakpad_symbols_artifact }}.zip *)
+
+      - name: Display structure of downloaded files
+        run: ls -R artifacts
+
+      - uses: "softprops/action-gh-release@v1"
+        with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: true
+          tag_name: nightly
+          target_commitish: ${{ github.sha }}
+          files: |
+            artifacts/*.zip
