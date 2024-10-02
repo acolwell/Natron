@@ -11,6 +11,9 @@ on:
       - 'tools/MINGW-packages/**'
       - '.github/workflows/build_pacman_repo.yml'
 
+  schedule:
+    - cron:  '0 12 * * *'
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
