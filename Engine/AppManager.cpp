@@ -457,9 +457,15 @@ AppManager::~AppManager()
     QThreadPool::globalInstance()->waitForDone();
 
     ///Kill caches now because decreaseNCacheFilesOpened can be called
-    _imp->_nodeCache->waitForDeleterThread();
-    _imp->_diskCache->waitForDeleterThread();
-    _imp->_viewerCache->waitForDeleterThread();
+    if (_imp->_nodeCache) {
+        _imp->_nodeCache->waitForDeleterThread();
+    }
+    if (_imp->_diskCache) {
+        _imp->_diskCache->waitForDeleterThread();
+    }
+    if (_imp->_viewerCache) {
+        _imp->_viewerCache->waitForDeleterThread();
+    }
     _imp->_nodeCache.reset();
     _imp->_viewerCache.reset();
     _imp->_diskCache.reset();

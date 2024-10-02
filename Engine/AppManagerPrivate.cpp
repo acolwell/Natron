@@ -448,6 +448,10 @@ template <typename T>
 void
 saveCache(Cache<T>* cache)
 {
+    if (!cache) {
+        return;
+    }
+
     std::string cacheRestoreFilePath = cache->getRestoreFilePath();
     FStreamsSupport::ofstream ofile;
     FStreamsSupport::open(&ofile, cacheRestoreFilePath);
