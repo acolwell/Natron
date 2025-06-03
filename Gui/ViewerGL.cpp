@@ -131,9 +131,11 @@ ViewerGL::ViewerGL(ViewerTab* parent,
 
 ViewerGL::~ViewerGL()
 {
+    std::cerr << "ViewerGL::~ViewerGL() : " << this << " - begin" << std::endl;
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
     cleanupGL();
+    std::cerr << "ViewerGL::~ViewerGL() : " << this << " - end" << std::endl;
 }
 
 QSize
@@ -1212,6 +1214,7 @@ ViewerGL::drawPersistentMessage()
 void
 ViewerGL::initializeGL()
 {
+    std::cerr << "ViewerGL::initializeGL() : " << this << " - begin" << std::endl;
     connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &ViewerGL::cleanupGL);
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
@@ -1221,15 +1224,18 @@ ViewerGL::initializeGL()
     }
     makeCurrent();
     _imp->initializeGL();
+    std::cerr << "ViewerGL::initializeGL() : " << this << " - end" << std::endl;
 }
 
 void
 ViewerGL::cleanupGL()
 {
+    std::cerr << "ViewerGL::cleanupGL() : " << this << " - begin" << std::endl;
     makeCurrent();
     _imp->cleanupGL();
     doneCurrent();
     disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &ViewerGL::cleanupGL);
+    std::cerr << "ViewerGL::cleanupGL() : " << this << " - end" << std::endl;
 }
 
 GLuint

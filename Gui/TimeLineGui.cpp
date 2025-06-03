@@ -250,6 +250,9 @@ TimeLineGui::TimeLineGui(ViewerInstance* viewer,
 
 TimeLineGui::~TimeLineGui()
 {
+    std::cerr << "TimeLineGui::~TimeLineGui() : " << this << " - begin" << std::endl;
+    cleanupGL();
+    std::cerr << "TimeLineGui::~TimeLineGui() : " << this << " - end" << std::endl;
 }
 
 void
@@ -288,18 +291,22 @@ TimeLineGui::sizeHint() const
 void
 TimeLineGui::initializeGL()
 {
+    std::cerr << "TimeLineGui::initializeGL() : " << this << " - begin" << std::endl;
     connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &TimeLineGui::cleanupGL);
     appPTR->initializeOpenGLFunctionsOnce();
     makeCurrent();
+    std::cerr << "TimeLineGui::initializeGL() : " << this << " - end" << std::endl;
 }
 
 void
 TimeLineGui::cleanupGL()
 {
+    std::cerr << "TimeLineGui::cleanupGL() : " << this << " - begin" << std::endl;
     makeCurrent();
 
     doneCurrent();
     disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &TimeLineGui::cleanupGL);
+    std::cerr << "TimeLineGui::cleanupGL() : " << this << " - end" << std::endl;
 }
 
 void

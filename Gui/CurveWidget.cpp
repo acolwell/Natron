@@ -147,9 +147,11 @@ CurveWidget::CurveWidget(Gui* gui,
 
 CurveWidget::~CurveWidget()
 {
+    std::cerr << "CurveWidget::~CurveWidget() : " << this << " - begin" << std::endl;
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
     cleanupGL();
+    std::cerr << "CurveWidget::~CurveWidget() : " << this << " - end" << std::endl;
 }
 
 bool
@@ -161,21 +163,25 @@ CurveWidget::hasTimeline() const
 void
 CurveWidget::initializeGL()
 {
+    std::cerr << "CurveWidget::initializeGL() : " << this << " - begin" << std::endl;
     connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &CurveWidget::cleanupGL);
 
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
     appPTR->initializeOpenGLFunctionsOnce();
     makeCurrent();
+    std::cerr << "CurveWidget::initializeGL() : " << this << " - end" << std::endl;
 }
 
 void
 CurveWidget::cleanupGL()
 {
+    std::cerr << "CurveWidget::cleanupGL() : " << this << " - begin" << std::endl;
     makeCurrent();
     _imp->savedTexture = 0;
     doneCurrent();
     disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &CurveWidget::cleanupGL);
+    std::cerr << "CurveWidget::cleanupGL() : " << this << " - end" << std::endl;
 }
 
 void

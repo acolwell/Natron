@@ -423,7 +423,9 @@ Histogram::~Histogram()
 {
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
+    std::cerr << "Histogram::~Histogram() : " << this << " - begin" << std::endl;
     cleanupGL();
+    std::cerr << "Histogram::~Histogram() : " << this << " - end" << std::endl;
 }
 
 int
@@ -660,6 +662,7 @@ Histogram::onDisplayModeChanged(QAction* action)
 void
 Histogram::initializeGL()
 {
+    std::cerr << "Histogram::initializeGL() : " << this << " - begin" << std::endl;
     connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &Histogram::cleanupGL);
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
@@ -797,11 +800,13 @@ Histogram::initializeGL()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 #endif // ifdef NATRON_HISTOGRAM_USING_OPENGL
+    std::cerr << "Histogram::initializeGL() : " << this << " - end" << std::endl;
 } // initializeGL
 
 void
 Histogram::cleanupGL()
 {
+    std::cerr << "Histogram::cleanupGL() : " << this << " - begin" << std::endl;
     makeCurrent();
 
 #ifdef NATRON_HISTOGRAM_USING_OPENGL
@@ -829,6 +834,7 @@ Histogram::cleanupGL()
 
     doneCurrent();
     disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &Histogram::cleanupGL);
+    std::cerr << "Histogram::cleanupGL() : " << this << " - end" << std::endl;
 }
 
 #ifdef NATRON_HISTOGRAM_USING_OPENGL

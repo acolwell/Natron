@@ -285,7 +285,7 @@ public:
     // for rendering
     double _screenPixelRatio;
     std::unique_ptr<QFont> _textFont;
-    TextRenderer textRenderer;
+    std::unique_ptr<TextRenderer> textRenderer;
 
     // for textures
     GLuint kfTexturesIDs[KF_TEXTURES_COUNT] = {0};
@@ -1721,7 +1721,7 @@ DopeSheetViewPrivate::renderText(double x,
     double scalex = (right - left) / (w  * _screenPixelRatio);
     double scaley = (top - bottom) / (h  * _screenPixelRatio);
 
-    textRenderer.renderText(x, y, scalex, scaley, text, color, font, flags);
+    textRenderer->renderText(x, y, scalex, scaley, text, color, font, flags);
 
     glCheckError();
 }
@@ -2586,7 +2586,9 @@ DopeSheetView::DopeSheetView(DopeSheet *model,
  */
 DopeSheetView::~DopeSheetView()
 {
+    std::cerr << "DopeSheetView::~DopeSheetView() : " << this << " - begin" << std::endl;
     cleanupGL();
+    std::cerr << "DopeSheetView::~DopeSheetView() : " << this << " - end" << std::endl;
 }
 
 void
@@ -3172,6 +3174,7 @@ DopeSheetView::onKeyframeSelectionChanged()
 void
 DopeSheetView::initializeGL()
 {
+    std::cerr << "DopeSheetView::initializeGL() : " << this << " - begin" << std::endl;
     connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &DopeSheetView::cleanupGL);
     running_in_main_thread();
     appPTR->initializeOpenGLFunctionsOnce();
@@ -3181,16 +3184,25 @@ DopeSheetView::initializeGL()
     }
     makeCurrent();
 
+    _imp->textRenderer = std::make_unique<TextRenderer>();
+
     _imp->generateKeyframeTextures();
+    std::cerr << "DopeSheetView::initializeGL() : " << this << " - end" << std::endl;
 }
 
 void
 DopeSheetView::cleanupGL()
 {
+    std::cerr << "DopeSheetView::cleanupGL() : " << this << " - begin" << std::endl;
     makeCurrent();
+
     _imp->cleanupKeyframeTextures();
+
+    _imp->textRenderer.reset();
+
     doneCurrent();
     disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &DopeSheetView::cleanupGL);
+    std::cerr << "DopeSheetView::cleanupGL() : " << this << " - end" << std::endl;
 }
 
 /**
