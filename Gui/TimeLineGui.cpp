@@ -288,7 +288,18 @@ TimeLineGui::sizeHint() const
 void
 TimeLineGui::initializeGL()
 {
+    connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &TimeLineGui::cleanupGL);
     appPTR->initializeOpenGLFunctionsOnce();
+    makeCurrent();
+}
+
+void
+TimeLineGui::cleanupGL()
+{
+    makeCurrent();
+
+    doneCurrent();
+    disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &TimeLineGui::cleanupGL);
 }
 
 void

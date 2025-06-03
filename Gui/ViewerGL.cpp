@@ -133,6 +133,7 @@ ViewerGL::~ViewerGL()
 {
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
+    cleanupGL();
 }
 
 QSize
@@ -1211,14 +1212,24 @@ ViewerGL::drawPersistentMessage()
 void
 ViewerGL::initializeGL()
 {
+    connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &ViewerGL::cleanupGL);
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
     appPTR->initializeOpenGLFunctionsOnce();
-    makeCurrent();
     if ( !appPTR->isOpenGLLoaded() ) {
         throw std::runtime_error("OpenGL was not loaded");
     }
+    makeCurrent();
     _imp->initializeGL();
+}
+
+void
+ViewerGL::cleanupGL()
+{
+    makeCurrent();
+    _imp->cleanupGL();
+    doneCurrent();
+    disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &ViewerGL::cleanupGL);
 }
 
 GLuint

@@ -108,6 +108,7 @@ private:
 
     virtual void paintGL() OVERRIDE FINAL;
     virtual void initializeGL() OVERRIDE FINAL;
+    void cleanupGL();
     virtual void resizeGL(int w, int h) OVERRIDE FINAL;
     virtual QSize sizeHint() const OVERRIDE FINAL;
     virtual void mousePressEvent(QMouseEvent* e) OVERRIDE FINAL;

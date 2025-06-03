@@ -161,6 +161,7 @@ private:
     void setBoundariesInternal(SequenceTime first, SequenceTime last, bool emitSignal);
 
     virtual void initializeGL() OVERRIDE FINAL;
+    void cleanupGL();
     virtual void resizeGL(int width, int height) OVERRIDE FINAL;
     virtual void paintGL() OVERRIDE FINAL;
     virtual void mousePressEvent(QMouseEvent* e) OVERRIDE FINAL;

@@ -96,6 +96,7 @@ CustomParamInteract::CustomParamInteract(const KnobGuiPtr& knob,
 
 CustomParamInteract::~CustomParamInteract()
 {
+    cleanupGL();
 }
 
 void
@@ -138,9 +139,20 @@ CustomParamInteract::paintGL()
 void
 CustomParamInteract::initializeGL()
 {
+    connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &CustomParamInteract::cleanupGL);
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
     appPTR->initializeOpenGLFunctionsOnce();
+    makeCurrent();
+}
+
+void
+CustomParamInteract::cleanupGL()
+{
+    makeCurrent();
+    _imp->savedTexture = 0;
+    doneCurrent();
+    disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &CustomParamInteract::cleanupGL);
 }
 
 void

@@ -147,33 +147,7 @@ ViewerGL::Implementation::~Implementation()
 {
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
-    _this->makeCurrent();
-
-    if (shaderRGB) {
-        shaderRGB->removeAllShaders();
-        shaderRGB.reset();
-    }
-    if (shaderBlack) {
-        shaderBlack->removeAllShaders();
-        shaderBlack.reset();
-    }
-    for (int i = 0; i < 2; ++i) {
-        displayTextures[i].texture.reset();
-    }
-    partialUpdateTextures.clear();
-
-    if ( appPTR && appPTR->isOpenGLLoaded() ) {
-        glCheckError();
-        for (U32 i = 0; i < this->pboIds.size(); ++i) {
-            glDeleteBuffers(1, &this->pboIds[i]);
-        }
-        glCheckError();
-        glDeleteBuffers(1, &this->vboVerticesId);
-        glDeleteBuffers(1, &this->vboTexturesId);
-        glDeleteBuffers(1, &this->iboTriangleStripId);
-        glCheckError();
-        glDeleteTextures(1, &this->checkerboardTextureID);
-    }
+    cleanupGL();
 }
 
 //static const GLfloat renderingTextureCoordinates[32] = {
@@ -466,6 +440,46 @@ ViewerGL::Implementation::initializeGL()
     _this->initShaderGLSL();
 
     glCheckError();
+}
+
+void
+ViewerGL::Implementation::cleanupGL()
+{
+    // always running in the main thread
+    assert( qApp && qApp->thread() == QThread::currentThread() );
+
+    if ( !appPTR || !appPTR->isOpenGLLoaded() ) {
+        return;
+    }
+
+    _this->makeCurrent();
+
+    // Destroy what was created inside initializeGL().
+    for (U32 i = 0; i < pboIds.size(); ++i) {
+        glDeleteBuffers(1, &pboIds[i]);
+    }
+    glDeleteBuffers(1, &vboVerticesId);
+    glDeleteBuffers(1, &vboTexturesId);
+    glDeleteBuffers(1, &iboTriangleStripId);
+
+    glDeleteTextures(1, &checkerboardTextureID);
+
+    // Destroy what was created in initializeCheckerboardTexture().
+    for (int i = 0; i < 2; ++i) {
+        displayTextures[i].texture.reset();
+    }
+    partialUpdateTextures.clear();
+
+    // Destroy and reset what was created in initShaderGLSL().
+    if (shaderRGB) {
+        shaderRGB->removeAllShaders();
+        shaderRGB.reset();
+    }
+    if (shaderBlack) {
+        shaderBlack->removeAllShaders();
+        shaderBlack.reset();
+    }
+    shaderLoaded = false;
 }
 
 bool

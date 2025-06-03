@@ -149,7 +149,7 @@ CurveWidget::~CurveWidget()
 {
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
-    makeCurrent();
+    cleanupGL();
 }
 
 bool
@@ -161,9 +161,21 @@ CurveWidget::hasTimeline() const
 void
 CurveWidget::initializeGL()
 {
+    connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &CurveWidget::cleanupGL);
+
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
     appPTR->initializeOpenGLFunctionsOnce();
+    makeCurrent();
+}
+
+void
+CurveWidget::cleanupGL()
+{
+    makeCurrent();
+    _imp->savedTexture = 0;
+    doneCurrent();
+    disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &CurveWidget::cleanupGL);
 }
 
 void

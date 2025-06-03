@@ -238,6 +238,7 @@ public:
     void drawRenderingVAO(unsigned int mipmapLevel, int textureIndex, DrawPolygonModeEnum polygonMode, bool background);
 
     void initializeGL();
+    void cleanupGL();
 
     bool isNearbyWipeCenter(const QPointF & pos, double zoomScreenPixelWidth, double zoomScreenPixelHeight ) const;
     bool isNearbyWipeRotateBar(const QPointF & pos, double zoomScreenPixelWidth, double zoomScreenPixelHeight) const;

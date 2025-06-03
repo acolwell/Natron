@@ -224,6 +224,7 @@ public Q_SLOTS:
 private:
 
     virtual void initializeGL() OVERRIDE FINAL;
+    void cleanupGL();
     virtual void resizeGL(int width, int height) OVERRIDE FINAL;
     virtual void paintGL() OVERRIDE FINAL;
     virtual QSize sizeHint() const OVERRIDE FINAL;

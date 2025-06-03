@@ -206,6 +206,7 @@ public:
 
     // Textures
     void generateKeyframeTextures();
+    void cleanupKeyframeTextures();
     DopeSheetViewPrivate::KeyframeTexture kfTextureFromKeyframeType(KeyframeTypeEnum kfType, bool selected) const;
 
     // Drawing
@@ -287,7 +288,7 @@ public:
     TextRenderer textRenderer;
 
     // for textures
-    GLuint kfTexturesIDs[KF_TEXTURES_COUNT];
+    GLuint kfTexturesIDs[KF_TEXTURES_COUNT] = {0};
 
     // for navigating
     ZoomContext zoomContext;
@@ -346,7 +347,6 @@ DopeSheetViewPrivate::DopeSheetViewPrivate(DopeSheetView *qq)
 
 DopeSheetViewPrivate::~DopeSheetViewPrivate()
 {
-    glDeleteTextures(KF_TEXTURES_COUNT, kfTexturesIDs);
 }
 
 /*
@@ -819,6 +819,13 @@ DopeSheetViewPrivate::generateKeyframeTextures()
 
     glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);
+}
+
+void
+DopeSheetViewPrivate::cleanupKeyframeTextures()
+{
+    glDeleteTextures(KF_TEXTURES_COUNT, kfTexturesIDs);
+    std::fill(std::begin(kfTexturesIDs), std::end(kfTexturesIDs), 0);
 }
 
 DopeSheetViewPrivate::KeyframeTexture
@@ -2579,6 +2586,7 @@ DopeSheetView::DopeSheetView(DopeSheet *model,
  */
 DopeSheetView::~DopeSheetView()
 {
+    cleanupGL();
 }
 
 void
@@ -3164,14 +3172,25 @@ DopeSheetView::onKeyframeSelectionChanged()
 void
 DopeSheetView::initializeGL()
 {
+    connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &DopeSheetView::cleanupGL);
     running_in_main_thread();
     appPTR->initializeOpenGLFunctionsOnce();
 
     if ( !appPTR->isOpenGLLoaded() ) {
         return;
     }
+    makeCurrent();
 
     _imp->generateKeyframeTextures();
+}
+
+void
+DopeSheetView::cleanupGL()
+{
+    makeCurrent();
+    _imp->cleanupKeyframeTextures();
+    doneCurrent();
+    disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &DopeSheetView::cleanupGL);
 }
 
 /**

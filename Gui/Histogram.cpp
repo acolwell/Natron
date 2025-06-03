@@ -423,24 +423,7 @@ Histogram::~Histogram()
 {
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
-    makeCurrent();
-
-#ifdef NATRON_HISTOGRAM_USING_OPENGL
-    glDeleteTextures(3, &_imp->histogramTexture[0]);
-    glDeleteTextures(3, &_imp->histogramReductionsTexture[0]);
-    glDeleteTextures(3, &_imp->histogramRenderTexture[0]);
-    glDeleteTextures(3, &_imp->histogramMaximumTexture[0]);
-
-    glDeleteFramebuffers(3, &_imp->fboReductions[0]);
-    glDeleteFramebuffers(1, &_imp->fboMaximum);
-    glDeleteFramebuffers(1, &_imp->fbohistogram);
-    glDeleteFramebuffers(1, &_imp->fboRendering);
-
-    glDeleteVertexArrays(1, &_imp->vaoID);
-    glDeleteBuffers(1, &_imp->vboID);
-    glDeleteBuffers(1, &_imp->vboHistogramRendering);
-
-#endif
+    cleanupGL();
 }
 
 int
@@ -677,6 +660,7 @@ Histogram::onDisplayModeChanged(QAction* action)
 void
 Histogram::initializeGL()
 {
+    connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &Histogram::cleanupGL);
     // always running in the main thread
     assert( qApp && qApp->thread() == QThread::currentThread() );
     appPTR->initializeOpenGLFunctionsOnce();
@@ -684,9 +668,9 @@ Histogram::initializeGL()
     if ( !appPTR->isOpenGLLoaded() ) {
         return;
     }
+    makeCurrent();
 
     assert( QOpenGLContext::currentContext() == context() );
-
 
 #ifdef NATRON_HISTOGRAM_USING_OPENGL
     _imp->histogramComputingShader.reset( new QOpenGLShaderProgram( context() ) );
@@ -814,6 +798,38 @@ Histogram::initializeGL()
 
 #endif // ifdef NATRON_HISTOGRAM_USING_OPENGL
 } // initializeGL
+
+void
+Histogram::cleanupGL()
+{
+    makeCurrent();
+
+#ifdef NATRON_HISTOGRAM_USING_OPENGL
+    _imp->histogramComputingShader.dreset();
+    _imp->histogramMaximumShader.reset();
+    _imp->histogramRenderingShader.reset();
+  
+    glDeleteTextures(3, &_imp->histogramTexture[0]);
+    glDeleteTextures(3, &_imp->histogramReductionsTexture[0]);
+    glDeleteTextures(3, &_imp->histogramRenderTexture[0]);
+    glDeleteTextures(3, &_imp->histogramMaximumTexture[0]);
+
+    _imp->leftImageTexture.reset();
+    _imp->rightImageTexture.reset();
+
+    glDeleteFramebuffers(3, &_imp->fboReductions[0]);
+    glDeleteFramebuffers(1, &_imp->fboMaximum);
+    glDeleteFramebuffers(1, &_imp->fbohistogram);
+    glDeleteFramebuffers(1, &_imp->fboRendering);
+
+    glDeleteVertexArrays(1, &_imp->vaoID);
+    glDeleteBuffers(1, &_imp->vboID);
+    glDeleteBuffers(1, &_imp->vboHistogramRendering);
+#endif // ifdef NATRON_HISTOGRAM_USING_OPENGL
+
+    doneCurrent();
+    disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &Histogram::cleanupGL);
+}
 
 #ifdef NATRON_HISTOGRAM_USING_OPENGL
 void

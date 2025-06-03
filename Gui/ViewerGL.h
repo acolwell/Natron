@@ -505,6 +505,8 @@ private:
      **/
     virtual void initializeGL() OVERRIDE FINAL;
 
+    void cleanupGL();
+
     /**
      *@brief Handles the resizing of the viewer
      **/

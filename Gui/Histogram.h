@@ -103,6 +103,7 @@ public Q_SLOTS:
 private:
 
     virtual void initializeGL() OVERRIDE FINAL;
+    void cleanupGL();
     virtual void paintGL() OVERRIDE FINAL;
     virtual void resizeGL(int w, int h) OVERRIDE FINAL;
     virtual void mousePressEvent(QMouseEvent* e) OVERRIDE FINAL;

@@ -164,6 +164,7 @@ public Q_SLOTS:
 
 protected:
     void initializeGL() OVERRIDE FINAL;
+    void cleanupGL();
     void resizeGL(int w, int h) OVERRIDE FINAL;
     void paintGL() OVERRIDE FINAL;
 
